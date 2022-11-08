@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/graphql-go/graphql"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"net"
@@ -44,4 +46,61 @@ func main() {
 	}
 	// 确保 Stop 协程执行完，主线程才能结束
 	wg.Wait()
+}
+
+func GraphqlServer() {
+	// Schema
+	fields := graphql.Fields{
+		"hello": &graphql.Field{
+			Name: "",
+			Type: graphql.String,
+			Args: nil,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				return "world", nil
+			},
+			Subscribe:         nil,
+			DeprecationReason: "",
+			Description:       "",
+		},
+	}
+	rootQueryConfig := graphql.ObjectConfig{
+		Name:        "RootQuery",
+		Interfaces:  nil,
+		Fields:      fields,
+		IsTypeOf:    nil,
+		Description: "",
+	}
+	schemaConfig := graphql.SchemaConfig{
+		Query:        graphql.NewObject(rootQueryConfig),
+		Mutation:     nil,
+		Subscription: nil,
+		Types:        nil,
+		Directives:   nil,
+		Extensions:   nil,
+	}
+	schema, err := graphql.NewSchema(schemaConfig)
+	if err != nil {
+		logrus.Fatalf("failed to create new schema, error: %v", err)
+	}
+
+	// Query
+	query := `
+		{
+			hello
+		}
+	`
+	params := graphql.Params{
+		Schema:         schema,
+		RequestString:  query,
+		RootObject:     nil,
+		VariableValues: nil,
+		OperationName:  "",
+		Context:        nil,
+	}
+	r := graphql.Do(params)
+	if len(r.Errors) > 0 {
+		logrus.Fatalf("failed at execute graphql operation, errors: %+v", r.Errors)
+	}
+	rJSON, _ := json.Marshal(r)
+	fmt.Printf("%s \n", rJSON)
 }
