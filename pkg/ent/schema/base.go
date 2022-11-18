@@ -1,7 +1,7 @@
 package schema
 
 import (
-	"CAS/tools"
+	"cas/tools"
 	"time"
 
 	"entgo.io/contrib/entgql"
