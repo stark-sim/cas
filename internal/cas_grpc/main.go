@@ -1,6 +1,9 @@
 package main
 
 import (
+	"cas/configs"
+	"cas/internal/db"
+	"cas/tools"
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
@@ -12,8 +15,16 @@ import (
 )
 
 func main() {
+	var err error
+	err = configs.InitLogger()
+	err = configs.InitConfig("")
+	err = tools.Init()
+	err = db.InitDB()
+	if err != nil {
+		return
+	}
 	// 监听 TCP 端口
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 8080))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", configs.Conf.APIConfig.GrpcPort))
 	if err != nil {
 		logrus.Fatalf("failed to listen: %v", err)
 	}
@@ -34,7 +45,7 @@ func main() {
 		wg.Done()
 	}()
 	// 启动服务，绑定在监听器上
-	logrus.Printf("Staring server")
+	logrus.Printf("Staring server at :%d", configs.Conf.APIConfig.GrpcPort)
 	err = grpcServer.Serve(lis)
 	if err != nil {
 		logrus.Fatalf("failed at start server: %v", err)

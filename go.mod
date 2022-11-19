@@ -12,6 +12,7 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.4.2
 	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/hashicorp/go-multierror v1.1.1
+	github.com/lib/pq v1.10.7
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/viper v1.14.0
 	github.com/vektah/gqlparser/v2 v2.4.3-0.20220508162109-d3d9eb001575
@@ -29,7 +30,9 @@ require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/google/uuid v1.3.0 // indirect
+	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
+	github.com/hashicorp/golang-lru v0.5.4 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hashicorp/hcl/v2 v2.13.0 // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
