@@ -24,6 +24,6 @@ func (BaseMixin) Fields() []ent.Field {
 		field.Int64("updated_by").Default(0).StructTag(`json:"updated_by"`),
 		field.Time("created_at").Immutable().Default(time.Now).StructTag(`json:"created_at"`).Annotations(entgql.OrderField("CREATED_AT")),
 		field.Time("updated_at").Default(time.Now).UpdateDefault(time.Now).StructTag(`json:"updated_at"`).Annotations(entgql.OrderField("UPDATED_AT")),
-		field.Time("deleted_at").Default(tools.ZeroTime).StructTag(`json:"deleted_at"`).Annotations(entgql.OrderField("DELETED_AT")),
+		field.Time("deleted_at").Default(time.Time{}).StructTag(`json:"deleted_at"`).Annotations(entgql.OrderField("DELETED_AT")),
 	}
 }
