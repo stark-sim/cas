@@ -1,4 +1,4 @@
-// +build ignore
+//+build ignore
 
 package main
 
@@ -8,6 +8,7 @@ import (
 	"cas/pkg/ent/migrate"
 	"context"
 	"entgo.io/ent/dialect/sql/schema"
+	"fmt"
 	"github.com/sirupsen/logrus"
 )
 
@@ -37,9 +38,9 @@ func main() {
 		schema.WithDropIndex(true),
 	}
 	// 需知道数据库目标
-	url = fmt.Sprintf("%s://%s:%s@%s:%v/%s?sslmodel=disable&TimeZone=Asia/Shanghai", dbConf.Driver, dbConf.Username, dbConf.Password, dbConf.Host, dbConf.Port, dbConf.Database)
+	dbUrl := fmt.Sprintf("%s://%s:%s@%s:%v/%s?sslmodel=disable&TimeZone=Asia/Shanghai", dbConf.Driver, dbConf.Username, dbConf.Password, dbConf.Host, dbConf.Port, dbConf.Database)
 	// 开始创建迁移文件
-	err = migrate.NamedDiff(ctx, url, "update", opts...)
+	err = migrate.NamedDiff(ctx, dbUrl, "update", opts...)
 	if err != nil {
 		logrus.Errorf("failed at generating migrations, err: %v", err)
 	}
