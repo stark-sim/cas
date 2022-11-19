@@ -27,7 +27,7 @@ func main() {
 	grpcServer := grpc.NewServer()
 	// 同步信道监听结束信号
 	sigCh := make(chan os.Signal, 1)
-	signal.Notify(sigCh, os.Interrupt, syscall.SIGQUIT, syscall.SIGTERM)
+	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGTERM)
 	// Sync 监听协程和主线程一致性
 	wg := sync.WaitGroup{}
 	wg.Add(1)
