@@ -4,6 +4,7 @@ import (
 	"entgo.io/contrib/entgql"
 	"entgo.io/ent"
 	"entgo.io/ent/schema"
+	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 )
 
@@ -21,7 +22,9 @@ func (Role) Fields() []ent.Field {
 
 // Edges of the Role.
 func (Role) Edges() []ent.Edge {
-	return nil
+	return []ent.Edge{
+		edge.From("users", User.Type).Ref("roles").Through("user_roles", UserRole.Type),
+	}
 }
 
 func (Role) Mixin() []ent.Mixin {
