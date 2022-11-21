@@ -5,7 +5,7 @@ go 1.19
 require (
 	entgo.io/contrib v0.3.4
 	entgo.io/ent v0.11.5-0.20221031135557-521f9b57bc3d
-	github.com/99designs/gqlgen v0.17.5-0.20220428154617-9250f9ac1f90
+	github.com/99designs/gqlgen v0.17.20
 	github.com/antonfisher/nested-logrus-formatter v1.3.1
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/fsnotify/fsnotify v1.6.0
@@ -15,7 +15,7 @@ require (
 	github.com/lib/pq v1.10.7
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/viper v1.14.0
-	github.com/vektah/gqlparser/v2 v2.4.3-0.20220508162109-d3d9eb001575
+	github.com/vektah/gqlparser/v2 v2.5.1
 	github.com/vmihailenco/msgpack/v5 v5.0.0-beta.9
 	golang.org/x/sync v0.1.0
 	google.golang.org/grpc v1.50.1
