@@ -1,11 +1,28 @@
 # schema tells gqlgen when the GraphQL schema is located.
 schema:
-  - ent.graphql
+  - ../pkg/graphql/ent.graphql
+
+# Where should the generated server code go?
+exec:
+  layout: follow-schema
+  dir: ../pkg/graphql
+  package: graphql
+
+# Enable Apollo federation support
+federation:
+  filename: ../pkg/graphql/federation.go
+  package: graphql
 
 # resolver reports where the resolver implementations go.
 resolver:
   layout: follow-schema
-  dir: .
+  dir: ../pkg/graphql
+  package: graphql
+
+# Where should any generated models go?
+model:
+  filename: ../pkg/graphql/model/models_gen.go
+  package: model
 
 # gqlgen will search for any type names in the schema in these go packages
 # if they match it will use them, otherwise it will generate them.

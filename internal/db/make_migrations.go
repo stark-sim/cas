@@ -1,4 +1,5 @@
-//+build ignore
+//go:build ignore
+// +build ignore
 
 package main
 
@@ -18,19 +19,19 @@ import (
 
 func main() {
 	// 创建文件夹
-	err := os.Mkdir("migrations", 0777)
+	err := os.Mkdir("../internal/db/migrations", 0777)
 	if err != nil && !os.IsExist(err) {
 		logrus.Errorf("failed at mkdir migrations")
 	}
 	ctx := context.Background()
 	// 指定文件夹
-	dir, err := sqltool.NewGolangMigrateDir("migrations")
+	dir, err := sqltool.NewGolangMigrateDir("../internal/db/migrations")
 	if err != nil {
 		logrus.Errorf("failed at creating atlas migration directory: %v", err)
 		return
 	}
 	// 需要初始化数据库配置
-	configPath := fmt.Sprintf("%s", filepath.Join(tools.GetDeployPath(""), "..", "..", "config.yaml"))
+	configPath := fmt.Sprintf("%s", filepath.Join(tools.GetDeployPath(""), "..", "config.yaml"))
 	err = configs.InitConfig(configPath)
 	if err != nil {
 		return
