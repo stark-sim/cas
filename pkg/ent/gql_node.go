@@ -5,6 +5,7 @@ package ent
 import (
 	"cas/pkg/ent/role"
 	"cas/pkg/ent/user"
+	"cas/pkg/ent/userrole"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -52,7 +53,7 @@ func (r *Role) Node(ctx context.Context) (node *Node, err error) {
 		ID:     r.ID,
 		Type:   "Role",
 		Fields: make([]*Field, 6),
-		Edges:  make([]*Edge, 0),
+		Edges:  make([]*Edge, 2),
 	}
 	var buf []byte
 	if buf, err = json.Marshal(r.CreatedBy); err != nil {
@@ -103,6 +104,26 @@ func (r *Role) Node(ctx context.Context) (node *Node, err error) {
 		Name:  "name",
 		Value: string(buf),
 	}
+	node.Edges[0] = &Edge{
+		Type: "User",
+		Name: "users",
+	}
+	err = r.QueryUsers().
+		Select(user.FieldID).
+		Scan(ctx, &node.Edges[0].IDs)
+	if err != nil {
+		return nil, err
+	}
+	node.Edges[1] = &Edge{
+		Type: "UserRole",
+		Name: "user_roles",
+	}
+	err = r.QueryUserRoles().
+		Select(userrole.FieldID).
+		Scan(ctx, &node.Edges[1].IDs)
+	if err != nil {
+		return nil, err
+	}
 	return node, nil
 }
 
@@ -111,7 +132,7 @@ func (u *User) Node(ctx context.Context) (node *Node, err error) {
 		ID:     u.ID,
 		Type:   "User",
 		Fields: make([]*Field, 7),
-		Edges:  make([]*Edge, 0),
+		Edges:  make([]*Edge, 2),
 	}
 	var buf []byte
 	if buf, err = json.Marshal(u.CreatedBy); err != nil {
@@ -169,6 +190,113 @@ func (u *User) Node(ctx context.Context) (node *Node, err error) {
 		Type:  "string",
 		Name:  "phone",
 		Value: string(buf),
+	}
+	node.Edges[0] = &Edge{
+		Type: "Role",
+		Name: "roles",
+	}
+	err = u.QueryRoles().
+		Select(role.FieldID).
+		Scan(ctx, &node.Edges[0].IDs)
+	if err != nil {
+		return nil, err
+	}
+	node.Edges[1] = &Edge{
+		Type: "UserRole",
+		Name: "user_roles",
+	}
+	err = u.QueryUserRoles().
+		Select(userrole.FieldID).
+		Scan(ctx, &node.Edges[1].IDs)
+	if err != nil {
+		return nil, err
+	}
+	return node, nil
+}
+
+func (ur *UserRole) Node(ctx context.Context) (node *Node, err error) {
+	node = &Node{
+		ID:     ur.ID,
+		Type:   "UserRole",
+		Fields: make([]*Field, 7),
+		Edges:  make([]*Edge, 2),
+	}
+	var buf []byte
+	if buf, err = json.Marshal(ur.CreatedBy); err != nil {
+		return nil, err
+	}
+	node.Fields[0] = &Field{
+		Type:  "int64",
+		Name:  "created_by",
+		Value: string(buf),
+	}
+	if buf, err = json.Marshal(ur.UpdatedBy); err != nil {
+		return nil, err
+	}
+	node.Fields[1] = &Field{
+		Type:  "int64",
+		Name:  "updated_by",
+		Value: string(buf),
+	}
+	if buf, err = json.Marshal(ur.CreatedAt); err != nil {
+		return nil, err
+	}
+	node.Fields[2] = &Field{
+		Type:  "time.Time",
+		Name:  "created_at",
+		Value: string(buf),
+	}
+	if buf, err = json.Marshal(ur.UpdatedAt); err != nil {
+		return nil, err
+	}
+	node.Fields[3] = &Field{
+		Type:  "time.Time",
+		Name:  "updated_at",
+		Value: string(buf),
+	}
+	if buf, err = json.Marshal(ur.DeletedAt); err != nil {
+		return nil, err
+	}
+	node.Fields[4] = &Field{
+		Type:  "time.Time",
+		Name:  "deleted_at",
+		Value: string(buf),
+	}
+	if buf, err = json.Marshal(ur.UserID); err != nil {
+		return nil, err
+	}
+	node.Fields[5] = &Field{
+		Type:  "int64",
+		Name:  "user_id",
+		Value: string(buf),
+	}
+	if buf, err = json.Marshal(ur.RoleID); err != nil {
+		return nil, err
+	}
+	node.Fields[6] = &Field{
+		Type:  "int64",
+		Name:  "role_id",
+		Value: string(buf),
+	}
+	node.Edges[0] = &Edge{
+		Type: "User",
+		Name: "user",
+	}
+	err = ur.QueryUser().
+		Select(user.FieldID).
+		Scan(ctx, &node.Edges[0].IDs)
+	if err != nil {
+		return nil, err
+	}
+	node.Edges[1] = &Edge{
+		Type: "Role",
+		Name: "role",
+	}
+	err = ur.QueryRole().
+		Select(role.FieldID).
+		Scan(ctx, &node.Edges[1].IDs)
+	if err != nil {
+		return nil, err
 	}
 	return node, nil
 }
@@ -255,6 +383,18 @@ func (c *Client) noder(ctx context.Context, table string, id int64) (Noder, erro
 		query := c.User.Query().
 			Where(user.ID(id))
 		query, err := query.CollectFields(ctx, "User")
+		if err != nil {
+			return nil, err
+		}
+		n, err := query.Only(ctx)
+		if err != nil {
+			return nil, err
+		}
+		return n, nil
+	case userrole.Table:
+		query := c.UserRole.Query().
+			Where(userrole.ID(id))
+		query, err := query.CollectFields(ctx, "UserRole")
 		if err != nil {
 			return nil, err
 		}
@@ -356,6 +496,22 @@ func (c *Client) noders(ctx context.Context, table string, ids []int64) ([]Noder
 		query := c.User.Query().
 			Where(user.IDIn(ids...))
 		query, err := query.CollectFields(ctx, "User")
+		if err != nil {
+			return nil, err
+		}
+		nodes, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, node := range nodes {
+			for _, noder := range idmap[node.ID] {
+				*noder = node
+			}
+		}
+	case userrole.Table:
+		query := c.UserRole.Query().
+			Where(userrole.IDIn(ids...))
+		query, err := query.CollectFields(ctx, "UserRole")
 		if err != nil {
 			return nil, err
 		}

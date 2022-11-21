@@ -14,6 +14,7 @@ type CreateRoleInput struct {
 	UpdatedAt *time.Time
 	DeletedAt *time.Time
 	Name      *string
+	UserIDs   []int64
 }
 
 // Mutate applies the CreateRoleInput on the RoleMutation builder.
@@ -36,6 +37,9 @@ func (i *CreateRoleInput) Mutate(m *RoleMutation) {
 	if v := i.Name; v != nil {
 		m.SetName(*v)
 	}
+	if v := i.UserIDs; len(v) > 0 {
+		m.AddUserIDs(v...)
+	}
 }
 
 // SetInput applies the change-set in the CreateRoleInput on the RoleCreate builder.
@@ -46,11 +50,13 @@ func (c *RoleCreate) SetInput(i CreateRoleInput) *RoleCreate {
 
 // UpdateRoleInput represents a mutation input for updating roles.
 type UpdateRoleInput struct {
-	CreatedBy *int64
-	UpdatedBy *int64
-	UpdatedAt *time.Time
-	DeletedAt *time.Time
-	Name      *string
+	CreatedBy     *int64
+	UpdatedBy     *int64
+	UpdatedAt     *time.Time
+	DeletedAt     *time.Time
+	Name          *string
+	AddUserIDs    []int64
+	RemoveUserIDs []int64
 }
 
 // Mutate applies the UpdateRoleInput on the RoleMutation builder.
@@ -69,6 +75,12 @@ func (i *UpdateRoleInput) Mutate(m *RoleMutation) {
 	}
 	if v := i.Name; v != nil {
 		m.SetName(*v)
+	}
+	if v := i.AddUserIDs; len(v) > 0 {
+		m.AddUserIDs(v...)
+	}
+	if v := i.RemoveUserIDs; len(v) > 0 {
+		m.RemoveUserIDs(v...)
 	}
 }
 
@@ -93,6 +105,7 @@ type CreateUserInput struct {
 	DeletedAt *time.Time
 	Name      *string
 	Phone     string
+	RoleIDs   []int64
 }
 
 // Mutate applies the CreateUserInput on the UserMutation builder.
@@ -116,6 +129,9 @@ func (i *CreateUserInput) Mutate(m *UserMutation) {
 		m.SetName(*v)
 	}
 	m.SetPhone(i.Phone)
+	if v := i.RoleIDs; len(v) > 0 {
+		m.AddRoleIDs(v...)
+	}
 }
 
 // SetInput applies the change-set in the CreateUserInput on the UserCreate builder.
@@ -126,12 +142,14 @@ func (c *UserCreate) SetInput(i CreateUserInput) *UserCreate {
 
 // UpdateUserInput represents a mutation input for updating users.
 type UpdateUserInput struct {
-	CreatedBy *int64
-	UpdatedBy *int64
-	UpdatedAt *time.Time
-	DeletedAt *time.Time
-	Name      *string
-	Phone     *string
+	CreatedBy     *int64
+	UpdatedBy     *int64
+	UpdatedAt     *time.Time
+	DeletedAt     *time.Time
+	Name          *string
+	Phone         *string
+	AddRoleIDs    []int64
+	RemoveRoleIDs []int64
 }
 
 // Mutate applies the UpdateUserInput on the UserMutation builder.
@@ -153,6 +171,12 @@ func (i *UpdateUserInput) Mutate(m *UserMutation) {
 	}
 	if v := i.Phone; v != nil {
 		m.SetPhone(*v)
+	}
+	if v := i.AddRoleIDs; len(v) > 0 {
+		m.AddRoleIDs(v...)
+	}
+	if v := i.RemoveRoleIDs; len(v) > 0 {
+		m.RemoveRoleIDs(v...)
 	}
 }
 

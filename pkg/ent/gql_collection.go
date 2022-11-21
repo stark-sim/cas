@@ -23,6 +23,34 @@ func (r *RoleQuery) CollectFields(ctx context.Context, satisfies ...string) (*Ro
 
 func (r *RoleQuery) collectField(ctx context.Context, op *graphql.OperationContext, field graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
+	for _, field := range graphql.CollectFields(op, field.Selections, satisfies) {
+		switch field.Name {
+		case "users":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = &UserQuery{config: r.config}
+			)
+			if err := query.collectField(ctx, op, field, path, satisfies...); err != nil {
+				return err
+			}
+			r.WithNamedUsers(alias, func(wq *UserQuery) {
+				*wq = *query
+			})
+		case "userRoles":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = &UserRoleQuery{config: r.config}
+			)
+			if err := query.collectField(ctx, op, field, path, satisfies...); err != nil {
+				return err
+			}
+			r.WithNamedUserRoles(alias, func(wq *UserRoleQuery) {
+				*wq = *query
+			})
+		}
+	}
 	return nil
 }
 
@@ -91,6 +119,34 @@ func (u *UserQuery) CollectFields(ctx context.Context, satisfies ...string) (*Us
 
 func (u *UserQuery) collectField(ctx context.Context, op *graphql.OperationContext, field graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
+	for _, field := range graphql.CollectFields(op, field.Selections, satisfies) {
+		switch field.Name {
+		case "roles":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = &RoleQuery{config: u.config}
+			)
+			if err := query.collectField(ctx, op, field, path, satisfies...); err != nil {
+				return err
+			}
+			u.WithNamedRoles(alias, func(wq *RoleQuery) {
+				*wq = *query
+			})
+		case "userRoles":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = &UserRoleQuery{config: u.config}
+			)
+			if err := query.collectField(ctx, op, field, path, satisfies...); err != nil {
+				return err
+			}
+			u.WithNamedUserRoles(alias, func(wq *UserRoleQuery) {
+				*wq = *query
+			})
+		}
+	}
 	return nil
 }
 
@@ -141,6 +197,98 @@ func newUserPaginateArgs(rv map[string]interface{}) *userPaginateArgs {
 	}
 	if v, ok := rv[whereField].(*UserWhereInput); ok {
 		args.opts = append(args.opts, WithUserFilter(v.Filter))
+	}
+	return args
+}
+
+// CollectFields tells the query-builder to eagerly load connected nodes by resolver context.
+func (ur *UserRoleQuery) CollectFields(ctx context.Context, satisfies ...string) (*UserRoleQuery, error) {
+	fc := graphql.GetFieldContext(ctx)
+	if fc == nil {
+		return ur, nil
+	}
+	if err := ur.collectField(ctx, graphql.GetOperationContext(ctx), fc.Field, nil, satisfies...); err != nil {
+		return nil, err
+	}
+	return ur, nil
+}
+
+func (ur *UserRoleQuery) collectField(ctx context.Context, op *graphql.OperationContext, field graphql.CollectedField, path []string, satisfies ...string) error {
+	path = append([]string(nil), path...)
+	for _, field := range graphql.CollectFields(op, field.Selections, satisfies) {
+		switch field.Name {
+		case "user":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = &UserQuery{config: ur.config}
+			)
+			if err := query.collectField(ctx, op, field, path, satisfies...); err != nil {
+				return err
+			}
+			ur.withUser = query
+		case "role":
+			var (
+				alias = field.Alias
+				path  = append(path, alias)
+				query = &RoleQuery{config: ur.config}
+			)
+			if err := query.collectField(ctx, op, field, path, satisfies...); err != nil {
+				return err
+			}
+			ur.withRole = query
+		}
+	}
+	return nil
+}
+
+type userrolePaginateArgs struct {
+	first, last   *int
+	after, before *Cursor
+	opts          []UserRolePaginateOption
+}
+
+func newUserRolePaginateArgs(rv map[string]interface{}) *userrolePaginateArgs {
+	args := &userrolePaginateArgs{}
+	if rv == nil {
+		return args
+	}
+	if v := rv[firstField]; v != nil {
+		args.first = v.(*int)
+	}
+	if v := rv[lastField]; v != nil {
+		args.last = v.(*int)
+	}
+	if v := rv[afterField]; v != nil {
+		args.after = v.(*Cursor)
+	}
+	if v := rv[beforeField]; v != nil {
+		args.before = v.(*Cursor)
+	}
+	if v, ok := rv[orderByField]; ok {
+		switch v := v.(type) {
+		case map[string]interface{}:
+			var (
+				err1, err2 error
+				order      = &UserRoleOrder{Field: &UserRoleOrderField{}}
+			)
+			if d, ok := v[directionField]; ok {
+				err1 = order.Direction.UnmarshalGQL(d)
+			}
+			if f, ok := v[fieldField]; ok {
+				err2 = order.Field.UnmarshalGQL(f)
+			}
+			if err1 == nil && err2 == nil {
+				args.opts = append(args.opts, WithUserRoleOrder(order))
+			}
+		case *UserRoleOrder:
+			if v != nil {
+				args.opts = append(args.opts, WithUserRoleOrder(v))
+			}
+		}
+	}
+	if v, ok := rv[whereField].(*UserRoleWhereInput); ok {
+		args.opts = append(args.opts, WithUserRoleFilter(v.Filter))
 	}
 	return args
 }

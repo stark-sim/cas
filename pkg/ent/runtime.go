@@ -6,6 +6,7 @@ import (
 	"cas/pkg/ent/role"
 	"cas/pkg/ent/schema"
 	"cas/pkg/ent/user"
+	"cas/pkg/ent/userrole"
 	"time"
 )
 
@@ -83,4 +84,35 @@ func init() {
 	userDescID := userMixinFields0[0].Descriptor()
 	// user.DefaultID holds the default value on creation for the id field.
 	user.DefaultID = userDescID.Default.(func() int64)
+	userroleMixin := schema.UserRole{}.Mixin()
+	userroleMixinFields0 := userroleMixin[0].Fields()
+	_ = userroleMixinFields0
+	userroleFields := schema.UserRole{}.Fields()
+	_ = userroleFields
+	// userroleDescCreatedBy is the schema descriptor for created_by field.
+	userroleDescCreatedBy := userroleMixinFields0[1].Descriptor()
+	// userrole.DefaultCreatedBy holds the default value on creation for the created_by field.
+	userrole.DefaultCreatedBy = userroleDescCreatedBy.Default.(int64)
+	// userroleDescUpdatedBy is the schema descriptor for updated_by field.
+	userroleDescUpdatedBy := userroleMixinFields0[2].Descriptor()
+	// userrole.DefaultUpdatedBy holds the default value on creation for the updated_by field.
+	userrole.DefaultUpdatedBy = userroleDescUpdatedBy.Default.(int64)
+	// userroleDescCreatedAt is the schema descriptor for created_at field.
+	userroleDescCreatedAt := userroleMixinFields0[3].Descriptor()
+	// userrole.DefaultCreatedAt holds the default value on creation for the created_at field.
+	userrole.DefaultCreatedAt = userroleDescCreatedAt.Default.(func() time.Time)
+	// userroleDescUpdatedAt is the schema descriptor for updated_at field.
+	userroleDescUpdatedAt := userroleMixinFields0[4].Descriptor()
+	// userrole.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	userrole.DefaultUpdatedAt = userroleDescUpdatedAt.Default.(func() time.Time)
+	// userrole.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	userrole.UpdateDefaultUpdatedAt = userroleDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// userroleDescDeletedAt is the schema descriptor for deleted_at field.
+	userroleDescDeletedAt := userroleMixinFields0[5].Descriptor()
+	// userrole.DefaultDeletedAt holds the default value on creation for the deleted_at field.
+	userrole.DefaultDeletedAt = userroleDescDeletedAt.Default.(time.Time)
+	// userroleDescID is the schema descriptor for id field.
+	userroleDescID := userroleMixinFields0[0].Descriptor()
+	// userrole.DefaultID holds the default value on creation for the id field.
+	userrole.DefaultID = userroleDescID.Default.(func() int64)
 }

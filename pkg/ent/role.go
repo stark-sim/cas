@@ -28,6 +28,43 @@ type Role struct {
 	DeletedAt time.Time `json:"deleted_at"`
 	// Name holds the value of the "name" field.
 	Name string `json:"name,omitempty"`
+	// Edges holds the relations/edges for other nodes in the graph.
+	// The values are being populated by the RoleQuery when eager-loading is set.
+	Edges RoleEdges `json:"edges"`
+}
+
+// RoleEdges holds the relations/edges for other nodes in the graph.
+type RoleEdges struct {
+	// Users holds the value of the users edge.
+	Users []*User `json:"users,omitempty"`
+	// UserRoles holds the value of the user_roles edge.
+	UserRoles []*UserRole `json:"user_roles,omitempty"`
+	// loadedTypes holds the information for reporting if a
+	// type was loaded (or requested) in eager-loading or not.
+	loadedTypes [2]bool
+	// totalCount holds the count of the edges above.
+	totalCount [2]map[string]int
+
+	namedUsers     map[string][]*User
+	namedUserRoles map[string][]*UserRole
+}
+
+// UsersOrErr returns the Users value or an error if the edge
+// was not loaded in eager-loading.
+func (e RoleEdges) UsersOrErr() ([]*User, error) {
+	if e.loadedTypes[0] {
+		return e.Users, nil
+	}
+	return nil, &NotLoadedError{edge: "users"}
+}
+
+// UserRolesOrErr returns the UserRoles value or an error if the edge
+// was not loaded in eager-loading.
+func (e RoleEdges) UserRolesOrErr() ([]*UserRole, error) {
+	if e.loadedTypes[1] {
+		return e.UserRoles, nil
+	}
+	return nil, &NotLoadedError{edge: "user_roles"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -103,6 +140,16 @@ func (r *Role) assignValues(columns []string, values []any) error {
 	return nil
 }
 
+// QueryUsers queries the "users" edge of the Role entity.
+func (r *Role) QueryUsers() *UserQuery {
+	return (&RoleClient{config: r.config}).QueryUsers(r)
+}
+
+// QueryUserRoles queries the "user_roles" edge of the Role entity.
+func (r *Role) QueryUserRoles() *UserRoleQuery {
+	return (&RoleClient{config: r.config}).QueryUserRoles(r)
+}
+
 // Update returns a builder for updating this Role.
 // Note that you need to call Role.Unwrap() before calling this method if this Role
 // was returned from a transaction, and the transaction was committed or rolled back.
@@ -145,6 +192,54 @@ func (r *Role) String() string {
 	builder.WriteString(r.Name)
 	builder.WriteByte(')')
 	return builder.String()
+}
+
+// NamedUsers returns the Users named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (r *Role) NamedUsers(name string) ([]*User, error) {
+	if r.Edges.namedUsers == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := r.Edges.namedUsers[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (r *Role) appendNamedUsers(name string, edges ...*User) {
+	if r.Edges.namedUsers == nil {
+		r.Edges.namedUsers = make(map[string][]*User)
+	}
+	if len(edges) == 0 {
+		r.Edges.namedUsers[name] = []*User{}
+	} else {
+		r.Edges.namedUsers[name] = append(r.Edges.namedUsers[name], edges...)
+	}
+}
+
+// NamedUserRoles returns the UserRoles named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (r *Role) NamedUserRoles(name string) ([]*UserRole, error) {
+	if r.Edges.namedUserRoles == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := r.Edges.namedUserRoles[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (r *Role) appendNamedUserRoles(name string, edges ...*UserRole) {
+	if r.Edges.namedUserRoles == nil {
+		r.Edges.namedUserRoles = make(map[string][]*UserRole)
+	}
+	if len(edges) == 0 {
+		r.Edges.namedUserRoles[name] = []*UserRole{}
+	} else {
+		r.Edges.namedUserRoles[name] = append(r.Edges.namedUserRoles[name], edges...)
+	}
 }
 
 // Roles is a parsable slice of Role.

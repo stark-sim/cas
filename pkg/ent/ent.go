@@ -5,6 +5,7 @@ package ent
 import (
 	"cas/pkg/ent/role"
 	"cas/pkg/ent/user"
+	"cas/pkg/ent/userrole"
 	"context"
 	"errors"
 	"fmt"
@@ -32,8 +33,9 @@ type OrderFunc func(*sql.Selector)
 // columnChecker returns a function indicates if the column exists in the given column.
 func columnChecker(table string) func(string) error {
 	checks := map[string]func(string) bool{
-		role.Table: role.ValidColumn,
-		user.Table: user.ValidColumn,
+		role.Table:     role.ValidColumn,
+		user.Table:     user.ValidColumn,
+		userrole.Table: userrole.ValidColumn,
 	}
 	check, ok := checks[table]
 	if !ok {
