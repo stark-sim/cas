@@ -10,7 +10,7 @@ import (
 var (
 	// RolesColumns holds the columns for the "roles" table.
 	RolesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt64, Increment: true},
+		{Name: "id", Type: field.TypeInt64},
 		{Name: "created_by", Type: field.TypeInt64, Default: 0},
 		{Name: "updated_by", Type: field.TypeInt64, Default: 0},
 		{Name: "created_at", Type: field.TypeTime},
@@ -26,7 +26,7 @@ var (
 	}
 	// UsersColumns holds the columns for the "users" table.
 	UsersColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt64, Increment: true},
+		{Name: "id", Type: field.TypeInt64},
 		{Name: "created_by", Type: field.TypeInt64, Default: 0},
 		{Name: "updated_by", Type: field.TypeInt64, Default: 0},
 		{Name: "created_at", Type: field.TypeTime},
@@ -50,7 +50,7 @@ var (
 	}
 	// UserRolesColumns holds the columns for the "user_roles" table.
 	UserRolesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt64, Increment: true},
+		{Name: "id", Type: field.TypeInt64},
 		{Name: "created_by", Type: field.TypeInt64, Default: 0},
 		{Name: "updated_by", Type: field.TypeInt64, Default: 0},
 		{Name: "created_at", Type: field.TypeTime},

@@ -2,6 +2,7 @@ package schema
 
 import (
 	"cas/tools"
+	"entgo.io/ent/dialect/entsql"
 	"time"
 
 	"entgo.io/contrib/entgql"
@@ -15,10 +16,15 @@ type BaseMixin struct {
 }
 
 func (BaseMixin) Fields() []ent.Field {
+	falsePtr := false
 	return []ent.Field{
-		field.Int64("id").Unique().Immutable().DefaultFunc(func() int64 {
-			return tools.GenSnowflakeID()
-		}),
+		field.Int64("id").
+			Unique().
+			Immutable().
+			Annotations(entsql.Annotation{Incremental: &falsePtr}).
+			DefaultFunc(func() int64 {
+				return tools.GenSnowflakeID()
+			}),
 		//field.Int64("id").Immutable().DefaultFunc(tools.GenSnowflakeID()),
 		field.Int64("created_by").Default(0).StructTag(`json:"created_by"`),
 		field.Int64("updated_by").Default(0).StructTag(`json:"updated_by"`),
