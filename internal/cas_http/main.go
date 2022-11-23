@@ -33,9 +33,8 @@ func main() {
 	//	logrus.Fatalf("http with graphql server DOWN!, err: %v", err)
 	//}
 	r := gin.Default()
-	r.Use(JSONMiddleware())
-	r.POST("/", graphqlHandler())
-	//r.GET("/", playgroundHandler())
+	r.POST("/graph", graphqlHandler())
+	r.GET("/", playgroundHandler())
 	err = r.Run(fmt.Sprintf(":%v", configs.Conf.APIConfig.HttpPort))
 	if err != nil {
 		return
@@ -60,6 +59,7 @@ func graphqlHandler() gin.HandlerFunc {
 		}),
 	})
 	return func(c *gin.Context) {
+		c.Writer.Header().Set("Content-Type", "application/json")
 		srv.ServeHTTP(c.Writer, c.Request)
 	}
 }
