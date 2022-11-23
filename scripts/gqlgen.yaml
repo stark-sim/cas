@@ -12,6 +12,7 @@ exec:
 federation:
   filename: ../pkg/graphql/federation.go
   package: graphql
+  version: 2
 
 # resolver reports where the resolver implementations go.
 resolver:
