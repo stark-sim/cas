@@ -15,7 +15,7 @@ func main() {
 	ex, err := entgql.NewExtension(
 		entgql.WithConfigPath("../scripts/gqlgen.yaml"),
 		entgql.WithSchemaGenerator(),
-		entgql.WithSchemaPath("../pkg/graphql/ent.graphql"),
+		entgql.WithSchemaPath("../pkg/graphql/cas.graphql"),
 		entgql.WithWhereInputs(true),
 	)
 	if err != nil {
@@ -23,7 +23,8 @@ func main() {
 	}
 	// 整合 versioned migrations 和 GraphQL schema
 	if err := entc.Generate("../pkg/ent/schema", &gen.Config{
-		Features: []gen.Feature{gen.FeatureVersionedMigration},
+		Features:  []gen.Feature{gen.FeatureVersionedMigration},
+		Templates: entgql.AllTemplates,
 	}, entc.Extensions(ex)); err != nil {
 		log.Fatalf("running ent codegen: %v", err)
 	}

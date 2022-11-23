@@ -1,5 +1,6 @@
 # schema tells gqlgen when the GraphQL schema is located.
 schema:
+  - ../pkg/graphql/cas.graphql
   - ../pkg/graphql/ent.graphql
 
 # Where should the generated server code go?
@@ -32,6 +33,9 @@ model:
 # provided package. If they match it will use them, otherwise it will generate new.
 autobind:
   - cas/pkg/ent
+  - cas/pkg/ent/role
+  - cas/pkg/ent/user
+  - cas/pkg/ent/userrole
 
 # This section declares type mapping between the GraphQL and Go type systems.
 models:
@@ -39,6 +43,12 @@ models:
   ID:
     model:
       - github.com/99designs/gqlgen/graphql.ID
+  Uint64:
+    model:
+      - github.com/99designs/gqlgen/graphql.Uint64
+  Int64:
+    model:
+      - github.com/99designs/gqlgen/graphql.Int64
   Node:
     model:
       - cas/pkg/ent.Noder

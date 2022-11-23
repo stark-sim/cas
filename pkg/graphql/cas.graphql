@@ -213,7 +213,7 @@ input UpdateUserInput {
   removeRoleIDs: [ID!]
 }
 type User implements Node {
-#  id: ID!
+  id: ID!
   createdBy: Int!
   updatedBy: Int!
   createdAt: Time!
@@ -423,14 +423,4 @@ input UserWhereInput {
   """user_roles edge predicates"""
   hasUserRoles: Boolean
   hasUserRolesWith: [UserRoleWhereInput!]
-}
-
-scalar _Any
-scalar _FieldSet
-
-directive @external on FIELD_DEFINITION
-directive @key(fields: _FieldSet!, resolvable: Boolean = true) repeatable on OBJECT | INTERFACE
-
-extend type User @key(fields: "id") {
-  id: ID! @external
 }

@@ -466,7 +466,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 	return introspection.WrapTypeFromDef(parsedSchema, parsedSchema.Types[name]), nil
 }
 
-//go:embed "ent.graphql"
+//go:embed "cas.graphql"
 var sourcesFS embed.FS
 
 func sourceData(filename string) string {
@@ -478,7 +478,7 @@ func sourceData(filename string) string {
 }
 
 var sources = []*ast.Source{
-	{Name: "ent.graphql", Input: sourceData("ent.graphql"), BuiltIn: false},
+	{Name: "cas.graphql", Input: sourceData("cas.graphql"), BuiltIn: false},
 	{Name: "../../scripts/federation/directives.graphql", Input: `
 	scalar _Any
 	scalar _FieldSet
