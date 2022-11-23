@@ -13,8 +13,7 @@ import (
 	"fmt"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/sirupsen/logrus"
-	"net/http"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -26,6 +25,24 @@ func main() {
 	if err != nil {
 		return
 	}
+
+	//// 初始化 http 服务，使用 gqlgen 的操作台
+	//http.Handle("/", playground.Handler("Test", "/graphql"))
+	//logrus.Printf("Listening on :%v", configs.Conf.APIConfig.HttpPort)
+	//if err = http.ListenAndServe(fmt.Sprintf(":%v", configs.Conf.APIConfig.HttpPort), nil); err != nil {
+	//	logrus.Fatalf("http with graphql server DOWN!, err: %v", err)
+	//}
+	r := gin.Default()
+	r.Use(JSONMiddleware())
+	r.POST("/", graphqlHandler())
+	//r.GET("/", playgroundHandler())
+	err = r.Run(fmt.Sprintf(":%v", configs.Conf.APIConfig.HttpPort))
+	if err != nil {
+		return
+	}
+}
+
+func graphqlHandler() gin.HandlerFunc {
 	// 创建数据库链接
 	client := db.NewDBClient()
 	// 初始化 graphql server
@@ -42,11 +59,21 @@ func main() {
 			return ctx, tx, nil
 		}),
 	})
-	// 初始化 http 服务，使用 gqlgen 的操作台
-	http.Handle("/", playground.Handler("Test", "/graphql"))
-	http.Handle("/graphql", srv)
-	logrus.Printf("Listening on :%v", configs.Conf.APIConfig.HttpPort)
-	if err = http.ListenAndServe(fmt.Sprintf(":%v", configs.Conf.APIConfig.HttpPort), nil); err != nil {
-		logrus.Fatalf("http with graphql server DOWN!, err: %v", err)
+	return func(c *gin.Context) {
+		srv.ServeHTTP(c.Writer, c.Request)
+	}
+}
+
+func playgroundHandler() gin.HandlerFunc {
+	srv := playground.Handler("Test", "/graph")
+	return func(c *gin.Context) {
+		srv.ServeHTTP(c.Writer, c.Request)
+	}
+}
+
+func JSONMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Content-Type", "application/json")
+		c.Next()
 	}
 }

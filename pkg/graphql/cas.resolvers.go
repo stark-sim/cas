@@ -7,6 +7,7 @@ import (
 	"cas/pkg/ent"
 	"context"
 	"fmt"
+	"strconv"
 )
 
 // Node is the resolver for the node field.
@@ -26,7 +27,7 @@ func (r *queryResolver) Roles(ctx context.Context) ([]*ent.Role, error) {
 
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context) ([]*ent.User, error) {
-	panic(fmt.Errorf("not implemented: Users - users"))
+	return r.client.User.Query().All(ctx)
 }
 
 // ID is the resolver for the id field.
@@ -36,7 +37,7 @@ func (r *roleResolver) ID(ctx context.Context, obj *ent.Role) (string, error) {
 
 // ID is the resolver for the id field.
 func (r *userResolver) ID(ctx context.Context, obj *ent.User) (string, error) {
-	panic(fmt.Errorf("not implemented: ID - id"))
+	return strconv.FormatInt(obj.ID, 10), nil
 }
 
 // ID is the resolver for the id field.
