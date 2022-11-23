@@ -29,7 +29,7 @@ func main() {
 	// 创建数据库链接
 	client := db.NewDBClient()
 	// 初始化 graphql server
-	srv := handler.NewDefaultServer(graphql.NewExecSchema(client))
+	srv := handler.NewDefaultServer(graphql.NewSchema(client))
 	// 自定义事务隔离等级
 	srv.Use(entgql.Transactioner{
 		TxOpener: entgql.TxOpenerFunc(func(ctx context.Context) (context.Context, driver.Tx, error) {
