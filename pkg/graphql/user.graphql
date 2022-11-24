@@ -1,0 +1,4 @@
+extend type Mutation {
+    createUser(input: CreateUserInput!): User
+    updateUser(id: ID, input: UpdateRoleInput!): Role
+}
