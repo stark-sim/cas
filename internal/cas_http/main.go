@@ -27,7 +27,7 @@ func main() {
 	}
 	// 结合 gin 启动 http 服务
 	r := gin.Default()
-	r.POST("/graph", graphqlHandler())
+	r.POST("/graphql", graphqlHandler())
 	r.GET("/", playgroundHandler())
 	err = r.Run(fmt.Sprintf(":%v", configs.Conf.APIConfig.HttpPort))
 	if err != nil {
