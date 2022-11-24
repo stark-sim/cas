@@ -4941,6 +4941,16 @@ func (ec *executionContext) _UserRole(ctx context.Context, sel ast.SelectionSet,
 
 // region    ***************************** type.gotpl *****************************
 
+func (ec *executionContext) unmarshalNCreateRoleInput2casᚋpkgᚋentᚐCreateRoleInput(ctx context.Context, v interface{}) (ent.CreateRoleInput, error) {
+	res, err := ec.unmarshalInputCreateRoleInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNCreateUserInput2casᚋpkgᚋentᚐCreateUserInput(ctx context.Context, v interface{}) (ent.CreateUserInput, error) {
+	res, err := ec.unmarshalInputCreateUserInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) marshalNNode2ᚕcasᚋpkgᚋentᚐNoder(ctx context.Context, sel ast.SelectionSet, v []ent.Noder) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
@@ -4987,6 +4997,10 @@ func (ec *executionContext) unmarshalNOrderDirection2casᚋpkgᚋentᚐOrderDire
 
 func (ec *executionContext) marshalNOrderDirection2casᚋpkgᚋentᚐOrderDirection(ctx context.Context, sel ast.SelectionSet, v ent.OrderDirection) graphql.Marshaler {
 	return v
+}
+
+func (ec *executionContext) marshalNRole2casᚋpkgᚋentᚐRole(ctx context.Context, sel ast.SelectionSet, v ent.Role) graphql.Marshaler {
+	return ec._Role(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalNRole2ᚕᚖcasᚋpkgᚋentᚐRoleᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.Role) graphql.Marshaler {
@@ -5077,6 +5091,11 @@ func (ec *executionContext) marshalNTime2timeᚐTime(ctx context.Context, sel as
 		}
 	}
 	return res
+}
+
+func (ec *executionContext) unmarshalNUpdateRoleInput2casᚋpkgᚋentᚐUpdateRoleInput(ctx context.Context, v interface{}) (ent.UpdateRoleInput, error) {
+	res, err := ec.unmarshalInputUpdateRoleInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNUser2ᚕᚖcasᚋpkgᚋentᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.User) graphql.Marshaler {
@@ -5255,6 +5274,13 @@ func (ec *executionContext) marshalORole2ᚕᚖcasᚋpkgᚋentᚐRoleᚄ(ctx con
 	return ret
 }
 
+func (ec *executionContext) marshalORole2ᚖcasᚋpkgᚋentᚐRole(ctx context.Context, sel ast.SelectionSet, v *ent.Role) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._Role(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalORoleWhereInput2ᚕᚖcasᚋpkgᚋentᚐRoleWhereInputᚄ(ctx context.Context, v interface{}) ([]*ent.RoleWhereInput, error) {
 	if v == nil {
 		return nil, nil
@@ -5382,6 +5408,13 @@ func (ec *executionContext) marshalOUser2ᚕᚖcasᚋpkgᚋentᚐUserᚄ(ctx con
 	}
 
 	return ret
+}
+
+func (ec *executionContext) marshalOUser2ᚖcasᚋpkgᚋentᚐUser(ctx context.Context, sel ast.SelectionSet, v *ent.User) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._User(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalOUserRole2ᚕᚖcasᚋpkgᚋentᚐUserRoleᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.UserRole) graphql.Marshaler {

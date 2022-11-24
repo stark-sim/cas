@@ -4,6 +4,7 @@ package graphql
 
 import (
 	"bytes"
+	"cas/pkg/ent"
 	"context"
 	"embed"
 	"errors"
@@ -31,6 +32,7 @@ type Config struct {
 }
 
 type ResolverRoot interface {
+	Mutation() MutationResolver
 	Query() QueryResolver
 	Role() RoleResolver
 	User() UserResolver
@@ -48,6 +50,13 @@ type DirectiveRoot struct {
 }
 
 type ComplexityRoot struct {
+	Mutation struct {
+		CreateRole func(childComplexity int, input ent.CreateRoleInput) int
+		CreateUser func(childComplexity int, input ent.CreateUserInput) int
+		UpdateRole func(childComplexity int, id *string, input ent.UpdateRoleInput) int
+		UpdateUser func(childComplexity int, id *string, input ent.UpdateRoleInput) int
+	}
+
 	PageInfo struct {
 		EndCursor       func(childComplexity int) int
 		HasNextPage     func(childComplexity int) int
@@ -120,6 +129,54 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	ec := executionContext{nil, e}
 	_ = ec
 	switch typeName + "." + field {
+
+	case "Mutation.createRole":
+		if e.complexity.Mutation.CreateRole == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createRole_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateRole(childComplexity, args["input"].(ent.CreateRoleInput)), true
+
+	case "Mutation.createUser":
+		if e.complexity.Mutation.CreateUser == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createUser_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateUser(childComplexity, args["input"].(ent.CreateUserInput)), true
+
+	case "Mutation.updateRole":
+		if e.complexity.Mutation.UpdateRole == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateRole_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateRole(childComplexity, args["id"].(*string), args["input"].(ent.UpdateRoleInput)), true
+
+	case "Mutation.updateUser":
+		if e.complexity.Mutation.UpdateUser == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateUser_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateUser(childComplexity, args["id"].(*string), args["input"].(ent.UpdateRoleInput)), true
 
 	case "PageInfo.endCursor":
 		if e.complexity.PageInfo.EndCursor == nil {
@@ -441,6 +498,21 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 				Data: buf.Bytes(),
 			}
 		}
+	case ast.Mutation:
+		return func(ctx context.Context) *graphql.Response {
+			if !first {
+				return nil
+			}
+			first = false
+			ctx = graphql.WithUnmarshalerMap(ctx, inputUnmarshalMap)
+			data := ec._Mutation(ctx, rc.Operation.SelectionSet)
+			var buf bytes.Buffer
+			data.MarshalGQL(&buf)
+
+			return &graphql.Response{
+				Data: buf.Bytes(),
+			}
+		}
 
 	default:
 		return graphql.OneShot(graphql.ErrorResponse(ctx, "unsupported GraphQL operation"))
@@ -466,7 +538,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 	return introspection.WrapTypeFromDef(parsedSchema, parsedSchema.Types[name]), nil
 }
 
-//go:embed "cas.graphql"
+//go:embed "cas.graphql" "role.graphql" "user.graphql"
 var sourcesFS embed.FS
 
 func sourceData(filename string) string {
@@ -479,6 +551,8 @@ func sourceData(filename string) string {
 
 var sources = []*ast.Source{
 	{Name: "cas.graphql", Input: sourceData("cas.graphql"), BuiltIn: false},
+	{Name: "role.graphql", Input: sourceData("role.graphql"), BuiltIn: false},
+	{Name: "user.graphql", Input: sourceData("user.graphql"), BuiltIn: false},
 	{Name: "../../scripts/federation/directives.graphql", Input: `
 	scalar _Any
 	scalar _FieldSet

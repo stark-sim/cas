@@ -9,6 +9,7 @@ require (
 	github.com/antonfisher/nested-logrus-formatter v1.3.1
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/fsnotify/fsnotify v1.6.0
+	github.com/gin-gonic/gin v1.8.1
 	github.com/golang-jwt/jwt/v4 v4.4.2
 	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/hashicorp/go-multierror v1.1.1
@@ -27,7 +28,6 @@ require (
 	github.com/agnivade/levenshtein v1.1.1 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
-	github.com/gin-gonic/gin v1.8.1 // indirect
 	github.com/go-openapi/inflect v0.19.0 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
