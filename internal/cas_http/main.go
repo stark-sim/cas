@@ -25,13 +25,7 @@ func main() {
 	if err != nil {
 		return
 	}
-
-	//// 初始化 http 服务，使用 gqlgen 的操作台
-	//http.Handle("/", playground.Handler("Test", "/graphql"))
-	//logrus.Printf("Listening on :%v", configs.Conf.APIConfig.HttpPort)
-	//if err = http.ListenAndServe(fmt.Sprintf(":%v", configs.Conf.APIConfig.HttpPort), nil); err != nil {
-	//	logrus.Fatalf("http with graphql server DOWN!, err: %v", err)
-	//}
+	// 结合 gin 启动 http 服务
 	r := gin.Default()
 	r.POST("/graph", graphqlHandler())
 	r.GET("/", playgroundHandler())

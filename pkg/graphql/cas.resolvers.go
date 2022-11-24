@@ -5,6 +5,7 @@ package graphql
 
 import (
 	"cas/pkg/ent"
+	"cas/tools"
 	"context"
 	"fmt"
 	"strconv"
@@ -12,17 +13,17 @@ import (
 
 // Node is the resolver for the node field.
 func (r *queryResolver) Node(ctx context.Context, id string) (ent.Noder, error) {
-	panic(fmt.Errorf("not implemented: Node - node"))
+	return nil, fmt.Errorf("not implemented: Node - node")
 }
 
 // Nodes is the resolver for the nodes field.
 func (r *queryResolver) Nodes(ctx context.Context, ids []string) ([]ent.Noder, error) {
-	panic(fmt.Errorf("not implemented: Nodes - nodes"))
+	return nil, fmt.Errorf("not implemented: Nodes - nodes")
 }
 
 // Roles is the resolver for the roles field.
 func (r *queryResolver) Roles(ctx context.Context) ([]*ent.Role, error) {
-	panic(fmt.Errorf("not implemented: Roles - roles"))
+	return nil, fmt.Errorf("not implemented: Roles - roles")
 }
 
 // Users is the resolver for the users field.
@@ -32,7 +33,7 @@ func (r *queryResolver) Users(ctx context.Context) ([]*ent.User, error) {
 
 // ID is the resolver for the id field.
 func (r *roleResolver) ID(ctx context.Context, obj *ent.Role) (string, error) {
-	panic(fmt.Errorf("not implemented: ID - id"))
+	return strconv.FormatInt(obj.ID, 10), nil
 }
 
 // ID is the resolver for the id field.
@@ -42,167 +43,275 @@ func (r *userResolver) ID(ctx context.Context, obj *ent.User) (string, error) {
 
 // ID is the resolver for the id field.
 func (r *userRoleResolver) ID(ctx context.Context, obj *ent.UserRole) (string, error) {
-	panic(fmt.Errorf("not implemented: ID - id"))
+	return strconv.FormatInt(obj.ID, 10), nil
 }
 
 // UserID is the resolver for the userID field.
 func (r *userRoleResolver) UserID(ctx context.Context, obj *ent.UserRole) (string, error) {
-	panic(fmt.Errorf("not implemented: UserID - userID"))
+	return strconv.FormatInt(obj.UserID, 10), nil
 }
 
 // RoleID is the resolver for the roleID field.
 func (r *userRoleResolver) RoleID(ctx context.Context, obj *ent.UserRole) (string, error) {
-	panic(fmt.Errorf("not implemented: RoleID - roleID"))
+	return strconv.FormatInt(obj.RoleID, 10), nil
 }
 
 // UserIDs is the resolver for the userIDs field.
 func (r *createRoleInputResolver) UserIDs(ctx context.Context, obj *ent.CreateRoleInput, data []string) error {
-	panic(fmt.Errorf("not implemented: UserIDs - userIDs"))
+	for _, v := range data {
+		obj.UserIDs = append(obj.UserIDs, tools.StringToInt64(v))
+	}
+	return nil
 }
 
 // RoleIDs is the resolver for the roleIDs field.
 func (r *createUserInputResolver) RoleIDs(ctx context.Context, obj *ent.CreateUserInput, data []string) error {
-	panic(fmt.Errorf("not implemented: RoleIDs - roleIDs"))
+	for _, v := range data {
+		obj.RoleIDs = append(obj.RoleIDs, tools.StringToInt64(v))
+	}
+	return nil
 }
 
 // ID is the resolver for the id field.
 func (r *roleWhereInputResolver) ID(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: ID - id"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.ID = &tempID
+	}
+	return nil
 }
 
 // IDNeq is the resolver for the idNEQ field.
 func (r *roleWhereInputResolver) IDNeq(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: IDNeq - idNEQ"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.IDNEQ = &tempID
+	}
+	return nil
 }
 
 // IDIn is the resolver for the idIn field.
 func (r *roleWhereInputResolver) IDIn(ctx context.Context, obj *ent.RoleWhereInput, data []string) error {
-	panic(fmt.Errorf("not implemented: IDIn - idIn"))
+	for _, v := range data {
+		obj.IDIn = append(obj.IDIn, tools.StringToInt64(v))
+	}
+	return nil
 }
 
 // IDNotIn is the resolver for the idNotIn field.
 func (r *roleWhereInputResolver) IDNotIn(ctx context.Context, obj *ent.RoleWhereInput, data []string) error {
-	panic(fmt.Errorf("not implemented: IDNotIn - idNotIn"))
+	for _, v := range data {
+		obj.IDNotIn = append(obj.IDNotIn, tools.StringToInt64(v))
+	}
+	return nil
 }
 
 // IDGt is the resolver for the idGT field.
 func (r *roleWhereInputResolver) IDGt(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: IDGt - idGT"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.IDGT = &tempID
+	}
+	return nil
 }
 
 // IDGte is the resolver for the idGTE field.
 func (r *roleWhereInputResolver) IDGte(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: IDGte - idGTE"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.IDGTE = &tempID
+	}
+	return nil
 }
 
 // IDLt is the resolver for the idLT field.
 func (r *roleWhereInputResolver) IDLt(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: IDLt - idLT"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.IDLT = &tempID
+	}
+	return nil
 }
 
 // IDLte is the resolver for the idLTE field.
 func (r *roleWhereInputResolver) IDLte(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: IDLte - idLTE"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.IDLTE = &tempID
+	}
+	return nil
 }
 
 // AddUserIDs is the resolver for the addUserIDs field.
 func (r *updateRoleInputResolver) AddUserIDs(ctx context.Context, obj *ent.UpdateRoleInput, data []string) error {
-	panic(fmt.Errorf("not implemented: AddUserIDs - addUserIDs"))
+	for _, v := range data {
+		obj.AddUserIDs = append(obj.AddUserIDs, tools.StringToInt64(v))
+	}
+	return nil
 }
 
 // RemoveUserIDs is the resolver for the removeUserIDs field.
 func (r *updateRoleInputResolver) RemoveUserIDs(ctx context.Context, obj *ent.UpdateRoleInput, data []string) error {
-	panic(fmt.Errorf("not implemented: RemoveUserIDs - removeUserIDs"))
+	for _, v := range data {
+		obj.RemoveUserIDs = append(obj.RemoveUserIDs, tools.StringToInt64(v))
+	}
+	return nil
 }
 
 // AddRoleIDs is the resolver for the addRoleIDs field.
 func (r *updateUserInputResolver) AddRoleIDs(ctx context.Context, obj *ent.UpdateUserInput, data []string) error {
-	panic(fmt.Errorf("not implemented: AddRoleIDs - addRoleIDs"))
+	for _, v := range data {
+		obj.AddRoleIDs = append(obj.AddRoleIDs, tools.StringToInt64(v))
+	}
+	return nil
 }
 
 // RemoveRoleIDs is the resolver for the removeRoleIDs field.
 func (r *updateUserInputResolver) RemoveRoleIDs(ctx context.Context, obj *ent.UpdateUserInput, data []string) error {
-	panic(fmt.Errorf("not implemented: RemoveRoleIDs - removeRoleIDs"))
+	for _, v := range data {
+		obj.RemoveRoleIDs = append(obj.RemoveRoleIDs, tools.StringToInt64(v))
+	}
+	return nil
 }
 
 // ID is the resolver for the id field.
 func (r *userRoleWhereInputResolver) ID(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: ID - id"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.ID = &tempID
+	}
+	return nil
 }
 
 // IDNeq is the resolver for the idNEQ field.
 func (r *userRoleWhereInputResolver) IDNeq(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: IDNeq - idNEQ"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.IDNEQ = &tempID
+	}
+	return nil
 }
 
 // IDIn is the resolver for the idIn field.
 func (r *userRoleWhereInputResolver) IDIn(ctx context.Context, obj *ent.UserRoleWhereInput, data []string) error {
-	panic(fmt.Errorf("not implemented: IDIn - idIn"))
+	for _, v := range data {
+		obj.IDIn = append(obj.IDIn, tools.StringToInt64(v))
+	}
+	return nil
 }
 
 // IDNotIn is the resolver for the idNotIn field.
 func (r *userRoleWhereInputResolver) IDNotIn(ctx context.Context, obj *ent.UserRoleWhereInput, data []string) error {
-	panic(fmt.Errorf("not implemented: IDNotIn - idNotIn"))
+	for _, v := range data {
+		obj.IDNotIn = append(obj.IDNotIn, tools.StringToInt64(v))
+	}
+	return nil
 }
 
 // IDGt is the resolver for the idGT field.
 func (r *userRoleWhereInputResolver) IDGt(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: IDGt - idGT"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.IDGT = &tempID
+	}
+	return nil
 }
 
 // IDGte is the resolver for the idGTE field.
 func (r *userRoleWhereInputResolver) IDGte(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: IDGte - idGTE"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.IDGTE = &tempID
+	}
+	return nil
 }
 
 // IDLt is the resolver for the idLT field.
 func (r *userRoleWhereInputResolver) IDLt(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: IDLt - idLT"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.IDLT = &tempID
+	}
+	return nil
 }
 
 // IDLte is the resolver for the idLTE field.
 func (r *userRoleWhereInputResolver) IDLte(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: IDLte - idLTE"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.IDLTE = &tempID
+	}
+	return nil
 }
 
 // ID is the resolver for the id field.
 func (r *userWhereInputResolver) ID(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: ID - id"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.ID = &tempID
+	}
+	return nil
 }
 
 // IDNeq is the resolver for the idNEQ field.
 func (r *userWhereInputResolver) IDNeq(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: IDNeq - idNEQ"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.IDNEQ = &tempID
+	}
+	return nil
 }
 
 // IDIn is the resolver for the idIn field.
 func (r *userWhereInputResolver) IDIn(ctx context.Context, obj *ent.UserWhereInput, data []string) error {
-	panic(fmt.Errorf("not implemented: IDIn - idIn"))
+	for _, v := range data {
+		obj.IDIn = append(obj.IDIn, tools.StringToInt64(v))
+	}
+	return nil
 }
 
 // IDNotIn is the resolver for the idNotIn field.
 func (r *userWhereInputResolver) IDNotIn(ctx context.Context, obj *ent.UserWhereInput, data []string) error {
-	panic(fmt.Errorf("not implemented: IDNotIn - idNotIn"))
+	for _, v := range data {
+		obj.IDNotIn = append(obj.IDNotIn, tools.StringToInt64(v))
+	}
+	return nil
 }
 
 // IDGt is the resolver for the idGT field.
 func (r *userWhereInputResolver) IDGt(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: IDGt - idGT"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.IDGT = &tempID
+	}
+	return nil
 }
 
 // IDGte is the resolver for the idGTE field.
 func (r *userWhereInputResolver) IDGte(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: IDGte - idGTE"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.IDGTE = &tempID
+	}
+	return nil
 }
 
 // IDLt is the resolver for the idLT field.
 func (r *userWhereInputResolver) IDLt(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: IDLt - idLT"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.IDLT = &tempID
+	}
+	return nil
 }
 
 // IDLte is the resolver for the idLTE field.
 func (r *userWhereInputResolver) IDLte(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
-	panic(fmt.Errorf("not implemented: IDLte - idLTE"))
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.IDLTE = &tempID
+	}
+	return nil
 }
 
 // Query returns QueryResolver implementation.
