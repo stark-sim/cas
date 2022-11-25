@@ -7,6 +7,7 @@ import (
 	"cas/pkg/ent"
 	"cas/tools"
 	"context"
+	"time"
 )
 
 // CreateRole is the resolver for the createRole field.
@@ -15,13 +16,15 @@ func (r *mutationResolver) CreateRole(ctx context.Context, input ent.CreateRoleI
 }
 
 // UpdateRole is the resolver for the updateRole field.
-func (r *mutationResolver) UpdateRole(ctx context.Context, id *string, input ent.UpdateRoleInput) (*ent.Role, error) {
-	if id != nil {
-		tempID := tools.StringToInt64(*id)
-		return r.client.Role.UpdateOneID(tempID).SetInput(input).Save(ctx)
-	} else {
-		return nil, nil
-	}
+func (r *mutationResolver) UpdateRole(ctx context.Context, id string, input ent.UpdateRoleInput) (*ent.Role, error) {
+	tempID := tools.StringToInt64(id)
+	return r.client.Role.UpdateOneID(tempID).SetInput(input).Save(ctx)
+}
+
+// DeleteRole is the resolver for the deleteRole field.
+func (r *mutationResolver) DeleteRole(ctx context.Context, id string) (*ent.Role, error) {
+	tempID := tools.StringToInt64(id)
+	return r.client.Role.UpdateOneID(tempID).SetDeletedAt(time.Now()).Save(ctx)
 }
 
 // Mutation returns MutationResolver implementation.

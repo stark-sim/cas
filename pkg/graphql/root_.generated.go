@@ -53,8 +53,10 @@ type ComplexityRoot struct {
 	Mutation struct {
 		CreateRole func(childComplexity int, input ent.CreateRoleInput) int
 		CreateUser func(childComplexity int, input ent.CreateUserInput) int
-		UpdateRole func(childComplexity int, id *string, input ent.UpdateRoleInput) int
-		UpdateUser func(childComplexity int, id *string, input ent.UpdateRoleInput) int
+		DeleteRole func(childComplexity int, id string) int
+		DeleteUser func(childComplexity int, id string) int
+		UpdateRole func(childComplexity int, id string, input ent.UpdateRoleInput) int
+		UpdateUser func(childComplexity int, id string, input ent.UpdateUserInput) int
 	}
 
 	PageInfo struct {
@@ -154,6 +156,30 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateUser(childComplexity, args["input"].(ent.CreateUserInput)), true
 
+	case "Mutation.deleteRole":
+		if e.complexity.Mutation.DeleteRole == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteRole_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteRole(childComplexity, args["id"].(string)), true
+
+	case "Mutation.deleteUser":
+		if e.complexity.Mutation.DeleteUser == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteUser_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteUser(childComplexity, args["id"].(string)), true
+
 	case "Mutation.updateRole":
 		if e.complexity.Mutation.UpdateRole == nil {
 			break
@@ -164,7 +190,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateRole(childComplexity, args["id"].(*string), args["input"].(ent.UpdateRoleInput)), true
+		return e.complexity.Mutation.UpdateRole(childComplexity, args["id"].(string), args["input"].(ent.UpdateRoleInput)), true
 
 	case "Mutation.updateUser":
 		if e.complexity.Mutation.UpdateUser == nil {
@@ -176,7 +202,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateUser(childComplexity, args["id"].(*string), args["input"].(ent.UpdateRoleInput)), true
+		return e.complexity.Mutation.UpdateUser(childComplexity, args["id"].(string), args["input"].(ent.UpdateUserInput)), true
 
 	case "PageInfo.endCursor":
 		if e.complexity.PageInfo.EndCursor == nil {

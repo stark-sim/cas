@@ -7,6 +7,7 @@ import (
 	"cas/pkg/ent"
 	"cas/tools"
 	"context"
+	"time"
 )
 
 // CreateUser is the resolver for the createUser field.
@@ -15,11 +16,13 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input ent.CreateUserI
 }
 
 // UpdateUser is the resolver for the updateUser field.
-func (r *mutationResolver) UpdateUser(ctx context.Context, id *string, input ent.UpdateRoleInput) (*ent.Role, error) {
-	if id != nil {
-		tempID := tools.StringToInt64(*id)
-		return r.client.Role.UpdateOneID(tempID).SetInput(input).Save(ctx)
-	} else {
-		return nil, nil
-	}
+func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input ent.UpdateUserInput) (*ent.User, error) {
+	tempID := tools.StringToInt64(id)
+	return r.client.User.UpdateOneID(tempID).SetInput(input).Save(ctx)
+}
+
+// DeleteUser is the resolver for the deleteUser field.
+func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (*ent.User, error) {
+	tempID := tools.StringToInt64(id)
+	return r.client.User.UpdateOneID(tempID).SetDeletedAt(time.Now()).Save(ctx)
 }
