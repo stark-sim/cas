@@ -23,7 +23,7 @@ func (r *queryResolver) Nodes(ctx context.Context, ids []string) ([]ent.Noder, e
 
 // Roles is the resolver for the roles field.
 func (r *queryResolver) Roles(ctx context.Context) ([]*ent.Role, error) {
-	return nil, fmt.Errorf("not implemented: Roles - roles")
+	return r.client.Role.Query().All(ctx)
 }
 
 // Users is the resolver for the users field.

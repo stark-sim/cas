@@ -426,11 +426,15 @@ input UserWhereInput {
 }
 
 type Mutation {
-    createRole(input: CreateRoleInput!): Role!
-    updateRole(id: ID, input: UpdateRoleInput!): Role!
+    createRole(input: CreateRoleInput!): Role
+    updateRole(id: ID!, input: UpdateRoleInput!): Role
+    deleteRole(id: ID!): Role!
 }
+
 
 extend type Mutation {
     createUser(input: CreateUserInput!): User
-    updateUser(id: ID, input: UpdateRoleInput!): Role
+    updateUser(id: ID!, input: UpdateUserInput!): User
+    deleteUser(id: ID!): User
 }
+
