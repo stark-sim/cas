@@ -2,3 +2,15 @@ include_subgraph_errors:
   all: true # Propagate errors from all subraphs
   subgraphs:
     products: false # Do not propagate errors from the products subgraph
+
+cors:
+  # Set to true to allow any origin
+  # (Defaults to false)
+  allow_any_origin: true
+
+#
+# supergraph: Configuration of the Supergraph server
+#
+supergraph:
+  # The socket address and port to listen on
+  listen: 0.0.0.0:4000

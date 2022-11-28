@@ -59,7 +59,7 @@ func graphqlHandler() gin.HandlerFunc {
 }
 
 func playgroundHandler() gin.HandlerFunc {
-	srv := playground.Handler("Test", "/graph")
+	srv := playground.Handler("Test", "/graphql")
 	return func(c *gin.Context) {
 		srv.ServeHTTP(c.Writer, c.Request)
 	}
