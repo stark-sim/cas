@@ -4,7 +4,7 @@ services:
   app:
     image: starksim/cas
     ports:
-      - "8080:8081"
+      - "8081:8080"
     volumes:
       - ./config.yaml:/app/config.yaml
     container_name: "cas"
