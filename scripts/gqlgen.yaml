@@ -44,9 +44,6 @@ models:
   ID:
     model:
       - github.com/99designs/gqlgen/graphql.ID
-  Uint64:
-    model:
-      - github.com/99designs/gqlgen/graphql.Uint64
   Int64:
     model:
       - github.com/99designs/gqlgen/graphql.Int64
