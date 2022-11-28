@@ -16,13 +16,13 @@ import (
 // Node is the resolver for the node field.
 func (r *queryResolver) Node(ctx context.Context, id string) (ent.Noder, error) {
 	tempID := tools.StringToInt64(id)
-	_user, err := r.client.User.Query().Where(user.ID(tempID)).First(ctx)
+	_user, err := r.client.User.Query().Where(user.ID(tempID), user.DeletedAtEQ(tools.ZeroTime)).First(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
-			_role, err := r.client.Role.Query().Where(role.ID(tempID)).First(ctx)
+			_role, err := r.client.Role.Query().Where(role.ID(tempID), role.DeletedAtEQ(tools.ZeroTime)).First(ctx)
 			if err != nil {
 				if ent.IsNotFound(err) {
-					userRole, err := r.client.UserRole.Query().Where(userrole.ID(tempID)).First(ctx)
+					userRole, err := r.client.UserRole.Query().Where(userrole.ID(tempID), userrole.DeletedAtEQ(tools.ZeroTime)).First(ctx)
 					if err != nil {
 						return nil, err
 					}
@@ -45,7 +45,7 @@ func (r *queryResolver) Nodes(ctx context.Context, ids []string) ([]ent.Noder, e
 		tempIDs = append(tempIDs, tools.StringToInt64(v))
 	}
 	// User
-	users, err := r.client.User.Query().Where(user.IDIn(tempIDs...)).All(ctx)
+	users, err := r.client.User.Query().Where(user.IDIn(tempIDs...), user.DeletedAtEQ(tools.ZeroTime)).All(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,7 @@ func (r *queryResolver) Nodes(ctx context.Context, ids []string) ([]ent.Noder, e
 		res = append(res, v)
 	}
 	// Role
-	roles, err := r.client.Role.Query().Where(role.IDIn(tempIDs...)).All(ctx)
+	roles, err := r.client.Role.Query().Where(role.IDIn(tempIDs...), role.DeletedAtEQ(tools.ZeroTime)).All(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +61,7 @@ func (r *queryResolver) Nodes(ctx context.Context, ids []string) ([]ent.Noder, e
 		res = append(res, v)
 	}
 	// UserRole
-	userRoles, err := r.client.UserRole.Query().Where(userrole.IDIn(tempIDs...)).All(ctx)
+	userRoles, err := r.client.UserRole.Query().Where(userrole.IDIn(tempIDs...), userrole.DeletedAtEQ(tools.ZeroTime)).All(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +74,7 @@ func (r *queryResolver) Nodes(ctx context.Context, ids []string) ([]ent.Noder, e
 
 // Roles is the resolver for the roles field.
 func (r *queryResolver) Roles(ctx context.Context) ([]*ent.Role, error) {
-	return r.client.Role.Query().All(ctx)
+	return r.client.Role.Query().Where(role.DeletedAtEQ(tools.ZeroTime)).All(ctx)
 }
 
 // Users is the resolver for the users field.
