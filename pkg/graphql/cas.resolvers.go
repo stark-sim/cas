@@ -5,20 +5,71 @@ package graphql
 
 import (
 	"cas/pkg/ent"
+	"cas/pkg/ent/role"
+	"cas/pkg/ent/user"
+	"cas/pkg/ent/userrole"
 	"cas/tools"
 	"context"
-	"fmt"
 	"strconv"
 )
 
 // Node is the resolver for the node field.
 func (r *queryResolver) Node(ctx context.Context, id string) (ent.Noder, error) {
-	return nil, fmt.Errorf("not implemented: Node - node")
+	tempID := tools.StringToInt64(id)
+	_user, err := r.client.User.Query().Where(user.ID(tempID)).First(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
+			_role, err := r.client.Role.Query().Where(role.ID(tempID)).First(ctx)
+			if err != nil {
+				if ent.IsNotFound(err) {
+					userRole, err := r.client.UserRole.Query().Where(userrole.ID(tempID)).First(ctx)
+					if err != nil {
+						return nil, err
+					}
+					return userRole, nil
+				}
+				return nil, err
+			}
+			return _role, nil
+		}
+		return nil, err
+	}
+	return _user, nil
 }
 
 // Nodes is the resolver for the nodes field.
 func (r *queryResolver) Nodes(ctx context.Context, ids []string) ([]ent.Noder, error) {
-	return nil, fmt.Errorf("not implemented: Nodes - nodes")
+	res := make([]ent.Noder, 0)
+	tempIDs := make([]int64, len(ids))
+	for _, v := range ids {
+		tempIDs = append(tempIDs, tools.StringToInt64(v))
+	}
+	// User
+	users, err := r.client.User.Query().Where(user.IDIn(tempIDs...)).All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	for _, v := range users {
+		res = append(res, v)
+	}
+	// Role
+	roles, err := r.client.Role.Query().Where(role.IDIn(tempIDs...)).All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	for _, v := range roles {
+		res = append(res, v)
+	}
+	// UserRole
+	userRoles, err := r.client.UserRole.Query().Where(userrole.IDIn(tempIDs...)).All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	for _, v := range userRoles {
+		res = append(res, v)
+	}
+	// return
+	return res, nil
 }
 
 // Roles is the resolver for the roles field.
