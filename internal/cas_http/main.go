@@ -2,10 +2,10 @@ package main
 
 import (
 	"cas/configs"
-	"cas/internal/cas_http/middlewares"
 	"cas/internal/db"
 	"cas/pkg/ent"
 	"cas/pkg/graphql"
+	"cas/pkg/graphql/middlewares"
 	"cas/tools"
 	"context"
 	"database/sql"
@@ -56,8 +56,11 @@ func graphqlHandler() gin.HandlerFunc {
 		}),
 	})
 	return func(c *gin.Context) {
-		c.Writer.Header().Set("Content-Type", "application/json")
-		srv.ServeHTTP(c.Writer, c.Request)
+		writer := c.Value(middlewares.ResponseWriter).(*middlewares.InjectableResponseWriter)
+		ctx := c.Request.Context()
+		ctx = context.WithValue(ctx, middlewares.ResponseWriter, writer)
+		writer.Header().Set("Content-Type", "application/json")
+		srv.ServeHTTP(writer, c.Request.WithContext(ctx))
 	}
 }
 

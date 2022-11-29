@@ -4,12 +4,13 @@ package graphql
 // will be copied through when generating and any unknown code will be moved to the end.
 
 import (
-	"cas/internal/cas_http/middlewares"
 	"cas/pkg/ent"
 	"cas/pkg/ent/user"
+	"cas/pkg/graphql/middlewares"
 	"cas/pkg/graphql/model"
 	"cas/tools"
 	"context"
+	"fmt"
 	"github.com/sirupsen/logrus"
 	"net/http"
 	"time"
@@ -45,8 +46,9 @@ func (r *queryResolver) Login(ctx context.Context, req model.LoginReq) (*ent.Use
 		logrus.Errorf("get token err: %v", err)
 		return nil, err
 	}
+	fmt.Printf("%+v\n", ctx.Value(middlewares.ResponseWriter))
 	// 将 token 包装成一个 cookie 返回
-	writer := ctx.Value(middlewares.ResponseWriter).(middlewares.InjectableResponseWriter)
+	writer := ctx.Value(middlewares.ResponseWriter).(*middlewares.InjectableResponseWriter)
 	writer.Cookie = &http.Cookie{
 		Name:       tools.CookieName,
 		Value:      token,
@@ -60,6 +62,9 @@ func (r *queryResolver) Login(ctx context.Context, req model.LoginReq) (*ent.Use
 		SameSite:   0,
 		Raw:        "",
 		Unparsed:   nil,
+	}
+	if err != nil {
+		return nil, err
 	}
 	return _user, nil
 }

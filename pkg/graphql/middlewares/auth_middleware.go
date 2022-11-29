@@ -18,8 +18,6 @@ func AuthMiddleware() func(c *gin.Context) {
 	return func(c *gin.Context) {
 		// 获取 cookie
 		cookie, err := c.Cookie(tools.CookieName)
-		cookie, err = url.PathUnescape(cookie)
-		logrus.Printf("=======> cookie: %s", cookie)
 		if err != nil && err != http.ErrNoCookie {
 			c.Abort()
 			return
@@ -28,7 +26,10 @@ func AuthMiddleware() func(c *gin.Context) {
 		if err == http.ErrNoCookie {
 			fmt.Printf("%s\n", c.Request.RequestURI)
 			c.Next()
+			return
 		}
+		cookie, err = url.PathUnescape(cookie)
+		logrus.Printf("=======> cookie: %s", cookie)
 		// 验证 JWT， 顺便把 userId 存于上下文
 		customClaims, err := tools.ParseToken(cookie)
 		if err != nil {
