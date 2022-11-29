@@ -437,4 +437,12 @@ extend type Mutation {
     updateUser(id: ID!, input: UpdateUserInput!): User
     deleteUser(id: ID!): User
 }
+# 登录业务
+input loginReq {
+    phone: String!
+}
+
+extend type Query {
+    login(req: loginReq!): User
+}
 

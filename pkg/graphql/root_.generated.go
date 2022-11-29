@@ -5,6 +5,7 @@ package graphql
 import (
 	"bytes"
 	"cas/pkg/ent"
+	"cas/pkg/graphql/model"
 	"context"
 	"embed"
 	"errors"
@@ -67,6 +68,7 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
+		Login              func(childComplexity int, req model.LoginReq) int
 		Node               func(childComplexity int, id string) int
 		Nodes              func(childComplexity int, ids []string) int
 		Roles              func(childComplexity int) int
@@ -231,6 +233,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.PageInfo.StartCursor(childComplexity), true
+
+	case "Query.login":
+		if e.complexity.Query.Login == nil {
+			break
+		}
+
+		args, err := ec.field_Query_login_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Login(childComplexity, args["req"].(model.LoginReq)), true
 
 	case "Query.node":
 		if e.complexity.Query.Node == nil {
@@ -505,6 +519,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputUserRoleOrder,
 		ec.unmarshalInputUserRoleWhereInput,
 		ec.unmarshalInputUserWhereInput,
+		ec.unmarshalInputloginReq,
 	)
 	first := true
 

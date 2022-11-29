@@ -14,7 +14,8 @@ const (
 	AccessTokenExp  = time.Hour * 2
 	RefreshTokenExp = time.Hour * 12
 
-	JWTHeader = "bearer "
+	JWTHeader  = "bearer "
+	CookieName = "Authorization"
 )
 
 type CustomClaims struct {

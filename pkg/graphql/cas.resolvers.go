@@ -79,7 +79,7 @@ func (r *queryResolver) Roles(ctx context.Context) ([]*ent.Role, error) {
 
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context) ([]*ent.User, error) {
-	return r.client.User.Query().All(ctx)
+	return r.client.User.Query().Where(user.DeletedAtEQ(tools.ZeroTime)).All(ctx)
 }
 
 // ID is the resolver for the id field.

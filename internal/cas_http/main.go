@@ -2,6 +2,7 @@ package main
 
 import (
 	"cas/configs"
+	"cas/internal/cas_http/middlewares"
 	"cas/internal/db"
 	"cas/pkg/ent"
 	"cas/pkg/graphql"
@@ -27,6 +28,8 @@ func main() {
 	}
 	// 结合 gin 启动 http 服务
 	r := gin.Default()
+	r.Use(middlewares.WriterMiddleware())
+	r.Use(middlewares.AuthMiddleware())
 	r.POST("/graphql", graphqlHandler())
 	r.GET("/", playgroundHandler())
 	err = r.Run(fmt.Sprintf(":%v", configs.Conf.APIConfig.HttpPort))
@@ -62,12 +65,5 @@ func playgroundHandler() gin.HandlerFunc {
 	srv := playground.Handler("Test", "/graphql")
 	return func(c *gin.Context) {
 		srv.ServeHTTP(c.Writer, c.Request)
-	}
-}
-
-func JSONMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Writer.Header().Set("Content-Type", "application/json")
-		c.Next()
 	}
 }
