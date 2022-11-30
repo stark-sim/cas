@@ -29,7 +29,6 @@ func main() {
 	// 结合 gin 启动 http 服务
 	r := gin.Default()
 	r.Use(middlewares.WriterMiddleware())
-	r.Use(middlewares.AuthMiddleware())
 	r.POST("/graphql", graphqlHandler())
 	r.GET("/", playgroundHandler())
 	err = r.Run(fmt.Sprintf(":%v", configs.Conf.APIConfig.HttpPort))
@@ -55,12 +54,13 @@ func graphqlHandler() gin.HandlerFunc {
 			return ctx, tx, nil
 		}),
 	})
+	// 接上 cookie 校验中间件
+	srv.Use(middlewares.NewAuthenticationMiddleware("login"))
 	return func(c *gin.Context) {
-		writer := c.Value(middlewares.ResponseWriter).(*middlewares.InjectableResponseWriter)
 		ctx := c.Request.Context()
-		ctx = context.WithValue(ctx, middlewares.ResponseWriter, writer)
+		writer := ctx.Value(middlewares.ResponseWriter).(*middlewares.InjectableResponseWriter)
 		writer.Header().Set("Content-Type", "application/json")
-		srv.ServeHTTP(writer, c.Request.WithContext(ctx))
+		srv.ServeHTTP(writer, c.Request)
 	}
 }
 

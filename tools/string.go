@@ -9,3 +9,12 @@ func StringToInt64(str string) int64 {
 	}
 	return parsedInt
 }
+
+func IsOneOf(obj interface{}, list ...interface{}) bool {
+	for _, v := range list {
+		if obj == v {
+			return true
+		}
+	}
+	return false
+}
