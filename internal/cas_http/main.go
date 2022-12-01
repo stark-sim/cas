@@ -60,7 +60,7 @@ func graphqlHandler() gin.HandlerFunc {
 		ctx := c.Request.Context()
 		writer := ctx.Value(middlewares.ResponseWriter).(*middlewares.InjectableResponseWriter)
 		writer.Header().Set("Content-Type", "application/json")
-		srv.ServeHTTP(writer, c.Request)
+		srv.ServeHTTP(writer, c.Request.WithContext(ctx))
 	}
 }
 

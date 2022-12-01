@@ -6,7 +6,6 @@ import (
 	"errors"
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/gin-gonic/gin"
-	"github.com/vektah/gqlparser/v2/ast"
 	"net/http"
 )
 
@@ -67,7 +66,7 @@ func (d DirectiveDrivenAuthenticator) InterceptField(ctx context.Context, next g
 	// only apply auth checks to these
 	if rc.OperationName != "IntrospectionQuery" && tools.IsOneOf(fc.Object, "Query", "Mutation", "Subscription") {
 		// skip auth check
-		if containsAnyOfDirectives(fc.Field.Definition.Directives, d.SkipAuthFor...) {
+		if tools.IsOneOf(fc.Field.Field.Name, d.SkipAuthFor...) {
 			return next(ctx)
 		}
 		// get cookie from context
@@ -91,15 +90,4 @@ func (d DirectiveDrivenAuthenticator) InterceptField(ctx context.Context, next g
 		ctx = context.WithValue(ctx, "token", cookie)
 	}
 	return next(ctx)
-}
-
-func containsAnyOfDirectives(directives ast.DirectiveList, skipAuths ...string) bool {
-	for _, directive := range directives {
-		for _, skipAuth := range skipAuths {
-			if directive.Name == skipAuth {
-				return true
-			}
-		}
-	}
-	return false
 }
