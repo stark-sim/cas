@@ -13,7 +13,7 @@ const ResponseWriter = "RESPONSE_WRITER"
 
 // InjectableResponseWriter 将 writer 载入到 ctx 中
 type InjectableResponseWriter struct {
-	http.ResponseWriter
+	gin.ResponseWriter
 	Cookie *http.Cookie
 }
 
@@ -34,7 +34,9 @@ func WriterMiddleware() func(c *gin.Context) {
 			Cookie:         nil,
 		}
 		ctx := c.Request.Context()
-		ctx = context.WithValue(ctx, ResponseWriter, &injectableResponseWriter)
+		c.Writer = &injectableResponseWriter
+		// 需要把 Writer 设置在 ctx 中，处理业务时才能把 Cookie 设置到 Writer 中
+		ctx = context.WithValue(ctx, ResponseWriter, c.Writer)
 		c.Request = c.Request.WithContext(ctx)
 		c.Next()
 	}

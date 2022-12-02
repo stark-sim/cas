@@ -57,10 +57,8 @@ func graphqlHandler() gin.HandlerFunc {
 	// 接上 cookie 校验中间件
 	srv.Use(middlewares.NewAuthenticationMiddleware("login"))
 	return func(c *gin.Context) {
-		ctx := c.Request.Context()
-		writer := ctx.Value(middlewares.ResponseWriter).(*middlewares.InjectableResponseWriter)
-		writer.Header().Set("Content-Type", "application/json")
-		srv.ServeHTTP(writer, c.Request.WithContext(ctx))
+		c.Writer.Header().Set("Content-Type", "application/json")
+		srv.ServeHTTP(c.Writer, c.Request)
 	}
 }
 
