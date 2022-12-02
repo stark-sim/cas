@@ -37,6 +37,9 @@ func WriterMiddleware() func(c *gin.Context) {
 		c.Writer = &injectableResponseWriter
 		// 需要把 Writer 设置在 ctx 中，处理业务时才能把 Cookie 设置到 Writer 中
 		ctx = context.WithValue(ctx, ResponseWriter, c.Writer)
+		// 把前端传来的 Cookie 设置到 ctx 中
+		rawCookie, _ := c.Cookie(tools.CookieName)
+		ctx = context.WithValue(ctx, tools.CookieName, rawCookie)
 		c.Request = c.Request.WithContext(ctx)
 		c.Next()
 	}
@@ -77,12 +80,12 @@ func (d DirectiveDrivenAuthenticator) InterceptField(ctx context.Context, next g
 			return nil, http.ErrNoCookie
 		}
 		// assert type as *http.Cookie
-		cookie, ok := rawCookie.(*http.Cookie)
+		cookie, ok := rawCookie.(string)
 		if !ok {
 			return nil, errors.New("not valid cookie")
 		}
 		// parse and validate JWT token using cookie
-		token, err := tools.ParseToken(cookie.Value)
+		token, err := tools.ParseToken(cookie)
 		if err != nil {
 			return nil, err
 		}
