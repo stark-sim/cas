@@ -212,7 +212,7 @@ input UpdateUserInput {
     addRoleIDs: [ID!]
     removeRoleIDs: [ID!]
 }
-type User implements Node {
+type User implements Node @key(fields: "id") {
     id: ID!
     createdBy: Int!
     updatedBy: Int!
@@ -430,7 +430,6 @@ type Mutation {
     updateRole(id: ID!, input: UpdateRoleInput!): Role
     deleteRole(id: ID!): Role!
 }
-
 
 extend type Mutation {
     createUser(input: CreateUserInput!): User

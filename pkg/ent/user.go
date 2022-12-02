@@ -261,3 +261,5 @@ func (u Users) config(cfg config) {
 		u[_i].config = cfg
 	}
 }
+
+func (User) IsEntity() {}

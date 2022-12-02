@@ -10,10 +10,11 @@ import (
 	"cas/pkg/graphql/model"
 	"cas/tools"
 	"context"
-	"github.com/sirupsen/logrus"
 	"net/http"
 	"net/url"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 // CreateUser is the resolver for the createUser field.
