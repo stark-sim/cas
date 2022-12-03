@@ -27,6 +27,34 @@ import (
 
 // region    **************************** input.gotpl *****************************
 
+func (ec *executionContext) unmarshalInputRegisterReq(ctx context.Context, obj interface{}) (model.RegisterReq, error) {
+	var it model.RegisterReq
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"phone"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "phone":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phone"))
+			it.Phone, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputloginReq(ctx context.Context, obj interface{}) (model.LoginReq, error) {
 	var it model.LoginReq
 	asMap := map[string]interface{}{}
@@ -66,6 +94,11 @@ func (ec *executionContext) unmarshalInputloginReq(ctx context.Context, obj inte
 // endregion **************************** object.gotpl ****************************
 
 // region    ***************************** type.gotpl *****************************
+
+func (ec *executionContext) unmarshalNRegisterReq2casᚋpkgᚋgraphqlᚋmodelᚐRegisterReq(ctx context.Context, v interface{}) (model.RegisterReq, error) {
+	res, err := ec.unmarshalInputRegisterReq(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
 
 func (ec *executionContext) unmarshalNloginReq2casᚋpkgᚋgraphqlᚋmodelᚐLoginReq(ctx context.Context, v interface{}) (model.LoginReq, error) {
 	res, err := ec.unmarshalInputloginReq(ctx, v)

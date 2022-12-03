@@ -2,6 +2,10 @@
 
 package model
 
+type RegisterReq struct {
+	Phone string `json:"phone"`
+}
+
 type LoginReq struct {
 	Phone string `json:"phone"`
 }
