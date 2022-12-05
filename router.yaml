@@ -6,7 +6,23 @@ include_subgraph_errors:
 cors:
   # Set to true to allow any origin
   # (Defaults to false)
-  allow_any_origin: true
+  allow_any_origin: false
+
+  allow_credentials: true
+
+  # List of accepted origins
+  # (Ignored if allow_any_origin is true)
+  # (Defaults to the Apollo Studio url: `https://studio.apollographql.com`)
+  #
+  # An origin is a combination of scheme, hostname and port.
+  # It does not have any path section, so no trailing slash.
+  origins:
+    - http://localhost:4000
+    - http://159.75.243.79
+    - https://studio.apollographql.com # Keep this so Apollo Studio can run queries against your router
+  match_origins:
+#    - "https://([a-z0-9]+[.])*api[.]example[.]com" # any host that uses https and ends with .api.example.com
+    - "http://*"
 
 #
 # supergraph: Configuration of the Supergraph server

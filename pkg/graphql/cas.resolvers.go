@@ -164,8 +164,8 @@ func (r *queryResolver) Login(ctx context.Context, req model.LoginReq) (*ent.Use
 		RawExpires: "",
 		MaxAge:     0,
 		Secure:     false,
-		HttpOnly:   true,
-		SameSite:   0,
+		HttpOnly:   false,
+		SameSite:   http.SameSiteLaxMode,
 		Raw:        "",
 		Unparsed:   nil,
 	}
