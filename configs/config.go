@@ -37,7 +37,7 @@ type DBConfig struct {
 
 func InitConfig() (err error) {
 	// 默认配置文件路径
-	configPath := tools.GetDeployPath("/config.yaml")
+	configPath := tools.GetRootPath("/config.yaml")
 	logrus.Printf("===> config path: %s", configPath)
 	// 初始化配置文件
 	viper.SetConfigFile(configPath)
