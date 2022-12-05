@@ -6,7 +6,7 @@ services:
     ports:
       - "8081:8080"
     volumes:
-      - ./config.yaml:/app/config.yaml
+      - ./config.yaml:/app/cas/config.yaml
     container_name: "cas"
     networks:
       default:
