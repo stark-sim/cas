@@ -28,9 +28,9 @@ FROM alpine:latest
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 RUN apk add --no-cache tzdata
 
-WORKDIR /app
+WORKDIR /cas
 
-COPY --from=builder /src/http_server /app/
+COPY --from=builder /src/http_server /cas/
 COPY --from=builder /src/internal/db/migrations /app/internal/db/migrations/
 
 EXPOSE 8080
