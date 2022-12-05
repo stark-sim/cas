@@ -20,8 +20,8 @@ COPY . .
 
 ARG TARGETOS
 ARG TARGETARCH
-
-RUN CGO_ENABLE=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -trimpath -ldflags "-s -w" -o http_server ./internal/cas_http/
+# 由于获取 config.yaml 位置时需要依赖文件内部路径，所以不能加 -trimpath
+RUN CGO_ENABLE=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -ldflags "-s -w" -o http_server ./internal/cas_http/main.go
 
 FROM alpine:latest
 
