@@ -61,6 +61,7 @@ type ComplexityRoot struct {
 		CreateUser func(childComplexity int, input ent.CreateUserInput) int
 		DeleteRole func(childComplexity int, id string) int
 		DeleteUser func(childComplexity int, id string) int
+		Register   func(childComplexity int, req model.RegisterReq) int
 		UpdateRole func(childComplexity int, id string, input ent.UpdateRoleInput) int
 		UpdateUser func(childComplexity int, id string, input ent.UpdateUserInput) int
 	}
@@ -199,6 +200,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.DeleteUser(childComplexity, args["id"].(string)), true
+
+	case "Mutation.register":
+		if e.complexity.Mutation.Register == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_register_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.Register(childComplexity, args["req"].(model.RegisterReq)), true
 
 	case "Mutation.updateRole":
 		if e.complexity.Mutation.UpdateRole == nil {
@@ -541,6 +554,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
 		ec.unmarshalInputCreateRoleInput,
 		ec.unmarshalInputCreateUserInput,
+		ec.unmarshalInputRegisterReq,
 		ec.unmarshalInputRoleOrder,
 		ec.unmarshalInputRoleWhereInput,
 		ec.unmarshalInputUpdateRoleInput,

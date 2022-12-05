@@ -12,6 +12,7 @@ import (
 	"cas/pkg/graphql/model"
 	"cas/tools"
 	"context"
+	"errors"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -52,6 +53,22 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input ent.
 func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (*ent.User, error) {
 	tempID := tools.StringToInt64(id)
 	return r.client.User.UpdateOneID(tempID).SetDeletedAt(time.Now()).Save(ctx)
+}
+
+// Register is the resolver for the register field.
+func (r *mutationResolver) Register(ctx context.Context, req model.RegisterReq) (*ent.User, error) {
+	// 先查看有没有重复的手机号用户存在
+	_, err := r.client.User.Query().Where(user.Phone(req.Phone), user.DeletedAtEQ(tools.ZeroTime)).First(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return r.client.User.Create().SetName("").SetPhone(req.Phone).Save(ctx)
+		} else {
+			logrus.Errorf("err at check existing phone: %v", err)
+			return nil, err
+		}
+	} else {
+		return nil, errors.New("phone already used by another user")
+	}
 }
 
 // Node is the resolver for the node field.

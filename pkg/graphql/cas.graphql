@@ -448,3 +448,10 @@ extend type Query {
   login(req: loginReq!): User
 }
 
+input RegisterReq {
+  phone: String!
+}
+
+extend type Mutation {
+  register(req: RegisterReq!): User
+}
