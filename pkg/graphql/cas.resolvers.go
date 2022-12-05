@@ -8,10 +8,51 @@ import (
 	"cas/pkg/ent/role"
 	"cas/pkg/ent/user"
 	"cas/pkg/ent/userrole"
+	"cas/pkg/graphql/middlewares"
+	"cas/pkg/graphql/model"
 	"cas/tools"
 	"context"
+	"net/http"
+	"net/url"
 	"strconv"
+	"time"
+
+	"github.com/sirupsen/logrus"
 )
+
+// CreateRole is the resolver for the createRole field.
+func (r *mutationResolver) CreateRole(ctx context.Context, input ent.CreateRoleInput) (*ent.Role, error) {
+	return r.client.Role.Create().SetInput(input).Save(ctx)
+}
+
+// UpdateRole is the resolver for the updateRole field.
+func (r *mutationResolver) UpdateRole(ctx context.Context, id string, input ent.UpdateRoleInput) (*ent.Role, error) {
+	tempID := tools.StringToInt64(id)
+	return r.client.Role.UpdateOneID(tempID).SetInput(input).Save(ctx)
+}
+
+// DeleteRole is the resolver for the deleteRole field.
+func (r *mutationResolver) DeleteRole(ctx context.Context, id string) (*ent.Role, error) {
+	tempID := tools.StringToInt64(id)
+	return r.client.Role.UpdateOneID(tempID).SetDeletedAt(time.Now()).Save(ctx)
+}
+
+// CreateUser is the resolver for the createUser field.
+func (r *mutationResolver) CreateUser(ctx context.Context, input ent.CreateUserInput) (*ent.User, error) {
+	return r.client.User.Create().SetInput(input).Save(ctx)
+}
+
+// UpdateUser is the resolver for the updateUser field.
+func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input ent.UpdateUserInput) (*ent.User, error) {
+	tempID := tools.StringToInt64(id)
+	return r.client.User.UpdateOneID(tempID).SetInput(input).Save(ctx)
+}
+
+// DeleteUser is the resolver for the deleteUser field.
+func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (*ent.User, error) {
+	tempID := tools.StringToInt64(id)
+	return r.client.User.UpdateOneID(tempID).SetDeletedAt(time.Now()).Save(ctx)
+}
 
 // Node is the resolver for the node field.
 func (r *queryResolver) Node(ctx context.Context, id string) (ent.Noder, error) {
@@ -80,6 +121,41 @@ func (r *queryResolver) Roles(ctx context.Context) ([]*ent.Role, error) {
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context) ([]*ent.User, error) {
 	return r.client.User.Query().Where(user.DeletedAtEQ(tools.ZeroTime)).All(ctx)
+}
+
+// Login is the resolver for the login field.
+func (r *queryResolver) Login(ctx context.Context, req model.LoginReq) (*ent.User, error) {
+	_user, err := r.client.User.Query().Where(user.PhoneEQ(req.Phone), user.DeletedAtEQ(tools.ZeroTime)).First(ctx)
+	if err != nil {
+		logrus.Errorf("login err: %v", err)
+		return nil, err
+	}
+	// 通过 用户 id 生成新 token
+	token, err := tools.GetToken(time.Now(), _user.ID)
+	if err != nil {
+		logrus.Errorf("get token err: %v", err)
+		return nil, err
+	}
+	// 将 token 包装成一个 cookie 返回
+	writer := ctx.Value(middlewares.ResponseWriter).(*middlewares.InjectableResponseWriter)
+	writer.Cookie = &http.Cookie{
+		Name:       tools.CookieName,
+		Value:      url.PathEscape(token),
+		Path:       "",
+		Domain:     "",
+		Expires:    time.Now().Add(tools.AccessTokenExp),
+		RawExpires: "",
+		MaxAge:     0,
+		Secure:     false,
+		HttpOnly:   true,
+		SameSite:   0,
+		Raw:        "",
+		Unparsed:   nil,
+	}
+	if err != nil {
+		return nil, err
+	}
+	return _user, nil
 }
 
 // ID is the resolver for the id field.
@@ -365,6 +441,9 @@ func (r *userWhereInputResolver) IDLte(ctx context.Context, obj *ent.UserWhereIn
 	return nil
 }
 
+// Mutation returns MutationResolver implementation.
+func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
+
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
@@ -400,6 +479,7 @@ func (r *Resolver) UserRoleWhereInput() UserRoleWhereInputResolver {
 // UserWhereInput returns UserWhereInputResolver implementation.
 func (r *Resolver) UserWhereInput() UserWhereInputResolver { return &userWhereInputResolver{r} }
 
+type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
 type roleResolver struct{ *Resolver }
 type userResolver struct{ *Resolver }

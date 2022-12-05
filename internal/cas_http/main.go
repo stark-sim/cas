@@ -20,7 +20,7 @@ import (
 func main() {
 	var err error
 	err = configs.InitLogger()
-	err = configs.InitConfig("")
+	err = configs.InitConfig()
 	err = tools.Init()
 	err = db.InitDB()
 	if err != nil {

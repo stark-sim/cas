@@ -609,7 +609,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 	return introspection.WrapTypeFromDef(parsedSchema, parsedSchema.Types[name]), nil
 }
 
-//go:embed "cas.graphql" "role.graphql" "user.graphql"
+//go:embed "cas.graphql"
 var sourcesFS embed.FS
 
 func sourceData(filename string) string {
@@ -622,9 +622,7 @@ func sourceData(filename string) string {
 
 var sources = []*ast.Source{
 	{Name: "cas.graphql", Input: sourceData("cas.graphql"), BuiltIn: false},
-	{Name: "role.graphql", Input: sourceData("role.graphql"), BuiltIn: false},
-	{Name: "user.graphql", Input: sourceData("user.graphql"), BuiltIn: false},
-	{Name: "../../scripts/federation/directives.graphql", Input: `
+	{Name: "federation/directives.graphql", Input: `
 	scalar _Any
 	scalar _FieldSet
 
@@ -640,7 +638,7 @@ var sources = []*ast.Source{
 	directive @override(from: String!) on FIELD_DEFINITION
 	directive @inaccessible on SCALAR | OBJECT | FIELD_DEFINITION | ARGUMENT_DEFINITION | INTERFACE | UNION | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION
 `, BuiltIn: true},
-	{Name: "../../scripts/federation/entity.graphql", Input: `
+	{Name: "federation/entity.graphql", Input: `
 # a union of all types that use the @key directive
 union _Entity = User
 

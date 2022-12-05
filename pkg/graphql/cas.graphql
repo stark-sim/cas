@@ -424,3 +424,27 @@ input UserWhereInput {
   hasUserRoles: Boolean
   hasUserRolesWith: [UserRoleWhereInput!]
 }
+
+# Custom graphql
+
+type Mutation {
+  createRole(input: CreateRoleInput!): Role
+  updateRole(id: ID!, input: UpdateRoleInput!): Role
+  deleteRole(id: ID!): Role!
+}
+
+extend type Mutation {
+  createUser(input: CreateUserInput!): User
+  updateUser(id: ID!, input: UpdateUserInput!): User
+  deleteUser(id: ID!): User
+}
+
+# 登录业务
+input loginReq {
+  phone: String!
+}
+
+extend type Query {
+  login(req: loginReq!): User
+}
+

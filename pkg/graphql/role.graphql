@@ -1,5 +1,0 @@
-type Mutation {
-    createRole(input: CreateRoleInput!): Role
-    updateRole(id: ID!, input: UpdateRoleInput!): Role
-    deleteRole(id: ID!): Role!
-}
