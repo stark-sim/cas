@@ -1,10 +1,10 @@
 package configs
 
 import (
-	"cas/tools"
 	"github.com/fsnotify/fsnotify"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"github.com/stark-sim/cas/tools"
 )
 
 var Conf = new(Config)

@@ -2,7 +2,7 @@
 
 package runtime
 
-// The schema-stitching logic is generated in cas/pkg/ent/runtime.go
+// The schema-stitching logic is generated in github.com/stark-sim/cas/pkg/ent/runtime.go
 
 const (
 	Version = "v0.11.5-0.20221031135557-521f9b57bc3d"           // Version of ent codegen.

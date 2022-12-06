@@ -3,14 +3,14 @@
 package enttest
 
 import (
-	"cas/pkg/ent"
 	"context"
-	// required by schema hooks.
-	_ "cas/pkg/ent/runtime"
 
-	"cas/pkg/ent/migrate"
+	"github.com/stark-sim/cas/pkg/ent"
+	// required by schema hooks.
+	_ "github.com/stark-sim/cas/pkg/ent/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
+	"github.com/stark-sim/cas/pkg/ent/migrate"
 )
 
 type (

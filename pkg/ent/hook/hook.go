@@ -3,9 +3,10 @@
 package hook
 
 import (
-	"cas/pkg/ent"
 	"context"
 	"fmt"
+
+	"github.com/stark-sim/cas/pkg/ent"
 )
 
 // The RoleFunc type is an adapter to allow the use of ordinary

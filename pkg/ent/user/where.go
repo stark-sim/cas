@@ -3,11 +3,11 @@
 package user
 
 import (
-	"cas/pkg/ent/predicate"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"github.com/stark-sim/cas/pkg/ent/predicate"
 )
 
 // ID filters vertices based on their ID field.

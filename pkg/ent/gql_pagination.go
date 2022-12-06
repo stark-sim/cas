@@ -3,9 +3,6 @@
 package ent
 
 import (
-	"cas/pkg/ent/role"
-	"cas/pkg/ent/user"
-	"cas/pkg/ent/userrole"
 	"context"
 	"encoding/base64"
 	"errors"
@@ -17,6 +14,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/errcode"
+	"github.com/stark-sim/cas/pkg/ent/role"
+	"github.com/stark-sim/cas/pkg/ent/user"
+	"github.com/stark-sim/cas/pkg/ent/userrole"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 	"github.com/vmihailenco/msgpack/v5"
 )

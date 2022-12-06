@@ -8,11 +8,11 @@ import (
 	"fmt"
 	"log"
 
-	"cas/pkg/ent/migrate"
+	"github.com/stark-sim/cas/pkg/ent/migrate"
 
-	"cas/pkg/ent/role"
-	"cas/pkg/ent/user"
-	"cas/pkg/ent/userrole"
+	"github.com/stark-sim/cas/pkg/ent/role"
+	"github.com/stark-sim/cas/pkg/ent/user"
+	"github.com/stark-sim/cas/pkg/ent/userrole"
 
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"

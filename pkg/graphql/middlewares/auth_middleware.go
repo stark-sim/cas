@@ -1,11 +1,11 @@
 package middlewares
 
 import (
-	"cas/tools"
 	"context"
 	"errors"
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/gin-gonic/gin"
+	"github.com/stark-sim/cas/tools"
 	"net/http"
 )
 

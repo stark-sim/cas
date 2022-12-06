@@ -31,10 +31,10 @@ model:
 # autobind tells gqngen to search for any type names in the GraphQL schema in the
 # provided package. If they match it will use them, otherwise it will generate new.
 autobind:
-  - cas/pkg/ent
-  - cas/pkg/ent/role
-  - cas/pkg/ent/user
-  - cas/pkg/ent/userrole
+  - github.com/stark-sim/cas/pkg/ent
+  - github.com/stark-sim/cas/pkg/ent/role
+  - github.com/stark-sim/cas/pkg/ent/user
+  - github.com/stark-sim/cas/pkg/ent/userrole
 
 # This section declares type mapping between the GraphQL and Go type systems.
 models:
@@ -47,4 +47,4 @@ models:
       - github.com/99designs/gqlgen/graphql.Int64
   Node:
     model:
-      - cas/pkg/ent.Noder
+      - github.com/stark-sim/cas/pkg/ent.Noder

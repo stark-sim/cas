@@ -4,15 +4,15 @@ package graphql
 // will be copied through when generating and any unknown code will be moved to the end.
 
 import (
-	"cas/pkg/ent"
-	"cas/pkg/ent/role"
-	"cas/pkg/ent/user"
-	"cas/pkg/ent/userrole"
-	"cas/pkg/graphql/middlewares"
-	"cas/pkg/graphql/model"
-	"cas/tools"
 	"context"
 	"errors"
+	"github.com/stark-sim/cas/pkg/ent"
+	"github.com/stark-sim/cas/pkg/ent/role"
+	"github.com/stark-sim/cas/pkg/ent/user"
+	"github.com/stark-sim/cas/pkg/ent/userrole"
+	"github.com/stark-sim/cas/pkg/graphql/middlewares"
+	"github.com/stark-sim/cas/pkg/graphql/model"
+	"github.com/stark-sim/cas/tools"
 	"net/http"
 	"net/url"
 	"strconv"

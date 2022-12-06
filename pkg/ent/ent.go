@@ -3,9 +3,6 @@
 package ent
 
 import (
-	"cas/pkg/ent/role"
-	"cas/pkg/ent/user"
-	"cas/pkg/ent/userrole"
 	"context"
 	"errors"
 	"fmt"
@@ -13,6 +10,9 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"github.com/stark-sim/cas/pkg/ent/role"
+	"github.com/stark-sim/cas/pkg/ent/user"
+	"github.com/stark-sim/cas/pkg/ent/userrole"
 )
 
 // ent aliases to avoid import conflicts in user's code.

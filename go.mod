@@ -1,4 +1,4 @@
-module cas
+module github.com/stark-sim/cas
 
 go 1.19
 

@@ -3,14 +3,14 @@
 package ent
 
 import (
-	"cas/pkg/ent/predicate"
-	"cas/pkg/ent/user"
 	"context"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/stark-sim/cas/pkg/ent/predicate"
+	"github.com/stark-sim/cas/pkg/ent/user"
 )
 
 // UserDelete is the builder for deleting a User entity.

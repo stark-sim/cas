@@ -3,9 +3,6 @@
 package ent
 
 import (
-	"cas/pkg/ent/role"
-	"cas/pkg/ent/user"
-	"cas/pkg/ent/userrole"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -18,6 +15,9 @@ import (
 	"entgo.io/ent/dialect/sql/schema"
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/hashicorp/go-multierror"
+	"github.com/stark-sim/cas/pkg/ent/role"
+	"github.com/stark-sim/cas/pkg/ent/user"
+	"github.com/stark-sim/cas/pkg/ent/userrole"
 	"golang.org/x/sync/semaphore"
 )
 

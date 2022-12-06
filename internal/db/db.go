@@ -1,8 +1,6 @@
 package db
 
 import (
-	"cas/configs"
-	"cas/pkg/ent"
 	"errors"
 	"fmt"
 	"github.com/golang-migrate/migrate/v4"
@@ -10,6 +8,8 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
+	"github.com/stark-sim/cas/configs"
+	"github.com/stark-sim/cas/pkg/ent"
 )
 
 var url = ""

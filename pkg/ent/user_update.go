@@ -3,10 +3,6 @@
 package ent
 
 import (
-	"cas/pkg/ent/predicate"
-	"cas/pkg/ent/role"
-	"cas/pkg/ent/user"
-	"cas/pkg/ent/userrole"
 	"context"
 	"errors"
 	"fmt"
@@ -15,6 +11,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/stark-sim/cas/pkg/ent/predicate"
+	"github.com/stark-sim/cas/pkg/ent/role"
+	"github.com/stark-sim/cas/pkg/ent/user"
+	"github.com/stark-sim/cas/pkg/ent/userrole"
 )
 
 // UserUpdate is the builder for updating User entities.

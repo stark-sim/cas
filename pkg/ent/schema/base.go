@@ -1,8 +1,8 @@
 package schema
 
 import (
-	"cas/tools"
 	"entgo.io/ent/dialect/entsql"
+	"github.com/stark-sim/cas/tools"
 	"time"
 
 	"entgo.io/contrib/entgql"

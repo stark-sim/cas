@@ -3,14 +3,14 @@
 package ent
 
 import (
-	"cas/pkg/ent/predicate"
-	"cas/pkg/ent/userrole"
 	"context"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/stark-sim/cas/pkg/ent/predicate"
+	"github.com/stark-sim/cas/pkg/ent/userrole"
 )
 
 // UserRoleDelete is the builder for deleting a UserRole entity.

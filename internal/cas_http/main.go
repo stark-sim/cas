@@ -1,12 +1,6 @@
 package main
 
 import (
-	"cas/configs"
-	"cas/internal/db"
-	"cas/pkg/ent"
-	"cas/pkg/graphql"
-	"cas/pkg/graphql/middlewares"
-	"cas/tools"
 	"context"
 	"database/sql"
 	"database/sql/driver"
@@ -15,6 +9,12 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gin-gonic/gin"
+	"github.com/stark-sim/cas/configs"
+	"github.com/stark-sim/cas/internal/db"
+	"github.com/stark-sim/cas/pkg/ent"
+	"github.com/stark-sim/cas/pkg/graphql"
+	"github.com/stark-sim/cas/pkg/graphql/middlewares"
+	"github.com/stark-sim/cas/tools"
 )
 
 func main() {

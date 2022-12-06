@@ -1,8 +1,8 @@
 package graphql
 
 import (
-	"cas/pkg/ent"
 	"github.com/99designs/gqlgen/graphql"
+	"github.com/stark-sim/cas/pkg/ent"
 )
 
 // This file will not be regenerated automatically.

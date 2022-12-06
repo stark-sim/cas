@@ -3,14 +3,14 @@
 package ent
 
 import (
-	"cas/pkg/ent/predicate"
-	"cas/pkg/ent/role"
 	"context"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/stark-sim/cas/pkg/ent/predicate"
+	"github.com/stark-sim/cas/pkg/ent/role"
 )
 
 // RoleDelete is the builder for deleting a Role entity.

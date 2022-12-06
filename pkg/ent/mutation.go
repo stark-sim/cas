@@ -3,15 +3,16 @@
 package ent
 
 import (
-	"cas/pkg/ent/predicate"
-	"cas/pkg/ent/role"
-	"cas/pkg/ent/user"
-	"cas/pkg/ent/userrole"
 	"context"
 	"errors"
 	"fmt"
 	"sync"
 	"time"
+
+	"github.com/stark-sim/cas/pkg/ent/predicate"
+	"github.com/stark-sim/cas/pkg/ent/role"
+	"github.com/stark-sim/cas/pkg/ent/user"
+	"github.com/stark-sim/cas/pkg/ent/userrole"
 
 	"entgo.io/ent"
 )

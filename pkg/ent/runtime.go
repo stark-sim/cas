@@ -3,11 +3,12 @@
 package ent
 
 import (
-	"cas/pkg/ent/role"
-	"cas/pkg/ent/schema"
-	"cas/pkg/ent/user"
-	"cas/pkg/ent/userrole"
 	"time"
+
+	"github.com/stark-sim/cas/pkg/ent/role"
+	"github.com/stark-sim/cas/pkg/ent/schema"
+	"github.com/stark-sim/cas/pkg/ent/user"
+	"github.com/stark-sim/cas/pkg/ent/userrole"
 )
 
 // The init function reads all schema descriptors with runtime code

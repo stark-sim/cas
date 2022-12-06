@@ -3,12 +3,12 @@
 package ent
 
 import (
-	"cas/pkg/ent/role"
 	"fmt"
 	"strings"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
+	"github.com/stark-sim/cas/pkg/ent/role"
 )
 
 // Role is the model entity for the Role schema.

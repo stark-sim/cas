@@ -5,13 +5,13 @@ package main
 
 import (
 	"ariga.io/atlas/sql/sqltool"
-	"cas/configs"
-	"cas/pkg/ent/migrate"
 	"context"
 	"entgo.io/ent/dialect/sql/schema"
 	"fmt"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	"github.com/sirupsen/logrus"
+	"github.com/stark-sim/cas/configs"
+	"github.com/stark-sim/cas/pkg/ent/migrate"
 	"os"
 )
 

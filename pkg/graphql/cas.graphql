@@ -36,7 +36,7 @@ scalar Cursor
 An object with an ID.
 Follows the [Relay Global Object Identification Specification](https://relay.dev/graphql/objectidentification.htm)
 """
-interface Node @goModel(model: "cas/pkg/ent.Noder") {
+interface Node @goModel(model: "github.com/stark-sim/cas/pkg/ent.Noder") {
   """The id of the object."""
   id: ID!
 }
@@ -212,7 +212,7 @@ input UpdateUserInput {
   addRoleIDs: [ID!]
   removeRoleIDs: [ID!]
 }
-type User implements Node @key(fields: "id") {
+type User implements Node {
   id: ID!
   createdBy: Int!
   updatedBy: Int!
