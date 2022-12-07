@@ -6,6 +6,12 @@ package graphql
 import (
 	"context"
 	"errors"
+	"net/http"
+	"net/url"
+	"strconv"
+	"time"
+
+	"github.com/sirupsen/logrus"
 	"github.com/stark-sim/cas/pkg/ent"
 	"github.com/stark-sim/cas/pkg/ent/role"
 	"github.com/stark-sim/cas/pkg/ent/user"
@@ -13,12 +19,6 @@ import (
 	"github.com/stark-sim/cas/pkg/graphql/middlewares"
 	"github.com/stark-sim/cas/pkg/graphql/model"
 	"github.com/stark-sim/cas/tools"
-	"net/http"
-	"net/url"
-	"strconv"
-	"time"
-
-	"github.com/sirupsen/logrus"
 )
 
 // CreateRole is the resolver for the createRole field.
