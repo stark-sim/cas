@@ -6,7 +6,7 @@ services:
     ports:
       - "8081:8080"
     volumes:
-      - ./config.yaml:/app/cas/config.yaml
+      - ./config.yaml:/app/github.com/stark-sim/cas/config.yaml
     container_name: "cas"
     networks:
       default:
