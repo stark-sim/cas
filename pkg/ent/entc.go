@@ -25,7 +25,7 @@ func main() {
 	if err := entc.Generate("./schema", &gen.Config{
 		Features:  []gen.Feature{gen.FeatureVersionedMigration},
 		Templates: entgql.AllTemplates,
-	}, entc.Extensions(ex)); err != nil {
+	}, entc.Extensions(ex), entc.TemplateDir("./ent/template")); err != nil {
 		log.Fatalf("running ent codegen: %v", err)
 	}
 }
