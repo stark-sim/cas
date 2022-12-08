@@ -5,10 +5,10 @@ package graphql
 
 import (
 	"context"
-	"github.com/stark-sim/cas/pkg/ent/user"
-	"github.com/stark-sim/cas/tools"
 
 	"github.com/stark-sim/cas/pkg/ent"
+	"github.com/stark-sim/cas/pkg/ent/user"
+	"github.com/stark-sim/cas/tools"
 )
 
 // FindUserByID is the resolver for the findUserByID field.

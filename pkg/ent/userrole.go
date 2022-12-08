@@ -210,6 +210,9 @@ func (ur *UserRole) String() string {
 	return builder.String()
 }
 
+// IsEntity implement fedruntime.Entity
+func (ur UserRole) IsEntity() {}
+
 // UserRoles is a parsable slice of UserRole.
 type UserRoles []*UserRole
 

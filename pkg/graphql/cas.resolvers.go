@@ -6,6 +6,7 @@ package graphql
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -180,14 +181,68 @@ func (r *roleResolver) ID(ctx context.Context, obj *ent.Role) (string, error) {
 	return strconv.FormatInt(obj.ID, 10), nil
 }
 
+// CreatedBy is the resolver for the createdBy field.
+func (r *roleResolver) CreatedBy(ctx context.Context, obj *ent.Role) (string, error) {
+	if obj.CreatedBy == 0 {
+		return "", nil
+	} else {
+		return strconv.FormatInt(obj.CreatedBy, 10), nil
+	}
+}
+
+// UpdatedBy is the resolver for the updatedBy field.
+func (r *roleResolver) UpdatedBy(ctx context.Context, obj *ent.Role) (string, error) {
+	if obj.UpdatedBy == 0 {
+		return "", nil
+	} else {
+		return strconv.FormatInt(obj.UpdatedBy, 10), nil
+	}
+}
+
 // ID is the resolver for the id field.
 func (r *userResolver) ID(ctx context.Context, obj *ent.User) (string, error) {
 	return strconv.FormatInt(obj.ID, 10), nil
 }
 
+// CreatedBy is the resolver for the createdBy field.
+func (r *userResolver) CreatedBy(ctx context.Context, obj *ent.User) (string, error) {
+	if obj.CreatedBy == 0 {
+		return "", nil
+	} else {
+		return strconv.FormatInt(obj.CreatedBy, 10), nil
+	}
+}
+
+// UpdatedBy is the resolver for the updatedBy field.
+func (r *userResolver) UpdatedBy(ctx context.Context, obj *ent.User) (string, error) {
+	if obj.UpdatedBy == 0 {
+		return "", nil
+	} else {
+		return strconv.FormatInt(obj.UpdatedBy, 10), nil
+	}
+}
+
 // ID is the resolver for the id field.
 func (r *userRoleResolver) ID(ctx context.Context, obj *ent.UserRole) (string, error) {
 	return strconv.FormatInt(obj.ID, 10), nil
+}
+
+// CreatedBy is the resolver for the createdBy field.
+func (r *userRoleResolver) CreatedBy(ctx context.Context, obj *ent.UserRole) (string, error) {
+	if obj.CreatedBy == 0 {
+		return "", nil
+	} else {
+		return strconv.FormatInt(obj.CreatedBy, 10), nil
+	}
+}
+
+// UpdatedBy is the resolver for the updatedBy field.
+func (r *userRoleResolver) UpdatedBy(ctx context.Context, obj *ent.UserRole) (string, error) {
+	if obj.UpdatedBy == 0 {
+		return "", nil
+	} else {
+		return strconv.FormatInt(obj.UpdatedBy, 10), nil
+	}
 }
 
 // UserID is the resolver for the userID field.
@@ -200,12 +255,56 @@ func (r *userRoleResolver) RoleID(ctx context.Context, obj *ent.UserRole) (strin
 	return strconv.FormatInt(obj.RoleID, 10), nil
 }
 
+// CreatedBy is the resolver for the createdBy field.
+func (r *createRoleInputResolver) CreatedBy(ctx context.Context, obj *ent.CreateRoleInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.CreatedBy = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
+// UpdatedBy is the resolver for the updatedBy field.
+func (r *createRoleInputResolver) UpdatedBy(ctx context.Context, obj *ent.CreateRoleInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.UpdatedBy = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
 // UserIDs is the resolver for the userIDs field.
 func (r *createRoleInputResolver) UserIDs(ctx context.Context, obj *ent.CreateRoleInput, data []string) error {
 	for _, v := range data {
 		obj.UserIDs = append(obj.UserIDs, tools.StringToInt64(v))
 	}
 	return nil
+}
+
+// CreatedBy is the resolver for the createdBy field.
+func (r *createUserInputResolver) CreatedBy(ctx context.Context, obj *ent.CreateUserInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.CreatedBy = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
+// UpdatedBy is the resolver for the updatedBy field.
+func (r *createUserInputResolver) UpdatedBy(ctx context.Context, obj *ent.CreateUserInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.UpdatedBy = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
 }
 
 // RoleIDs is the resolver for the roleIDs field.
@@ -286,6 +385,144 @@ func (r *roleWhereInputResolver) IDLte(ctx context.Context, obj *ent.RoleWhereIn
 	return nil
 }
 
+// CreatedBy is the resolver for the createdBy field.
+func (r *roleWhereInputResolver) CreatedBy(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.CreatedBy = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
+// CreatedByNeq is the resolver for the createdByNEQ field.
+func (r *roleWhereInputResolver) CreatedByNeq(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.CreatedByNEQ = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
+// CreatedByIn is the resolver for the createdByIn field.
+func (r *roleWhereInputResolver) CreatedByIn(ctx context.Context, obj *ent.RoleWhereInput, data []string) error {
+	for _, v := range data {
+		obj.CreatedByIn = append(obj.CreatedByIn, tools.StringToInt64(v))
+	}
+	return nil
+}
+
+// CreatedByNotIn is the resolver for the createdByNotIn field.
+func (r *roleWhereInputResolver) CreatedByNotIn(ctx context.Context, obj *ent.RoleWhereInput, data []string) error {
+	for _, v := range data {
+		obj.CreatedByNotIn = append(obj.CreatedByNotIn, tools.StringToInt64(v))
+	}
+	return nil
+}
+
+// CreatedByGt is the resolver for the createdByGT field.
+func (r *roleWhereInputResolver) CreatedByGt(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: CreatedByGt - createdByGT"))
+}
+
+// CreatedByGte is the resolver for the createdByGTE field.
+func (r *roleWhereInputResolver) CreatedByGte(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: CreatedByGte - createdByGTE"))
+}
+
+// CreatedByLt is the resolver for the createdByLT field.
+func (r *roleWhereInputResolver) CreatedByLt(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: CreatedByLt - createdByLT"))
+}
+
+// CreatedByLte is the resolver for the createdByLTE field.
+func (r *roleWhereInputResolver) CreatedByLte(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: CreatedByLte - createdByLTE"))
+}
+
+// UpdatedBy is the resolver for the updatedBy field.
+func (r *roleWhereInputResolver) UpdatedBy(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.UpdatedBy = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
+// UpdatedByNeq is the resolver for the updatedByNEQ field.
+func (r *roleWhereInputResolver) UpdatedByNeq(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.UpdatedByNEQ = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
+// UpdatedByIn is the resolver for the updatedByIn field.
+func (r *roleWhereInputResolver) UpdatedByIn(ctx context.Context, obj *ent.RoleWhereInput, data []string) error {
+	for _, v := range data {
+		obj.UpdatedByIn = append(obj.UpdatedByIn, tools.StringToInt64(v))
+	}
+	return nil
+}
+
+// UpdatedByNotIn is the resolver for the updatedByNotIn field.
+func (r *roleWhereInputResolver) UpdatedByNotIn(ctx context.Context, obj *ent.RoleWhereInput, data []string) error {
+	for _, v := range data {
+		obj.UpdatedByNotIn = append(obj.UpdatedByNotIn, tools.StringToInt64(v))
+	}
+	return nil
+}
+
+// UpdatedByGt is the resolver for the updatedByGT field.
+func (r *roleWhereInputResolver) UpdatedByGt(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: UpdatedByGt - updatedByGT"))
+}
+
+// UpdatedByGte is the resolver for the updatedByGTE field.
+func (r *roleWhereInputResolver) UpdatedByGte(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: UpdatedByGte - updatedByGTE"))
+}
+
+// UpdatedByLt is the resolver for the updatedByLT field.
+func (r *roleWhereInputResolver) UpdatedByLt(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: UpdatedByLt - updatedByLT"))
+}
+
+// UpdatedByLte is the resolver for the updatedByLTE field.
+func (r *roleWhereInputResolver) UpdatedByLte(ctx context.Context, obj *ent.RoleWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: UpdatedByLte - updatedByLTE"))
+}
+
+// CreatedBy is the resolver for the createdBy field.
+func (r *updateRoleInputResolver) CreatedBy(ctx context.Context, obj *ent.UpdateRoleInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.CreatedBy = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
+// UpdatedBy is the resolver for the updatedBy field.
+func (r *updateRoleInputResolver) UpdatedBy(ctx context.Context, obj *ent.UpdateRoleInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.UpdatedBy = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
 // AddUserIDs is the resolver for the addUserIDs field.
 func (r *updateRoleInputResolver) AddUserIDs(ctx context.Context, obj *ent.UpdateRoleInput, data []string) error {
 	for _, v := range data {
@@ -300,6 +537,28 @@ func (r *updateRoleInputResolver) RemoveUserIDs(ctx context.Context, obj *ent.Up
 		obj.RemoveUserIDs = append(obj.RemoveUserIDs, tools.StringToInt64(v))
 	}
 	return nil
+}
+
+// CreatedBy is the resolver for the createdBy field.
+func (r *updateUserInputResolver) CreatedBy(ctx context.Context, obj *ent.UpdateUserInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.CreatedBy = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
+// UpdatedBy is the resolver for the updatedBy field.
+func (r *updateUserInputResolver) UpdatedBy(ctx context.Context, obj *ent.UpdateUserInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.UpdatedBy = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
 }
 
 // AddRoleIDs is the resolver for the addRoleIDs field.
@@ -388,6 +647,122 @@ func (r *userRoleWhereInputResolver) IDLte(ctx context.Context, obj *ent.UserRol
 	return nil
 }
 
+// CreatedBy is the resolver for the createdBy field.
+func (r *userRoleWhereInputResolver) CreatedBy(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.CreatedBy = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
+// CreatedByNeq is the resolver for the createdByNEQ field.
+func (r *userRoleWhereInputResolver) CreatedByNeq(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.CreatedByNEQ = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
+// CreatedByIn is the resolver for the createdByIn field.
+func (r *userRoleWhereInputResolver) CreatedByIn(ctx context.Context, obj *ent.UserRoleWhereInput, data []string) error {
+	for _, v := range data {
+		obj.CreatedByIn = append(obj.CreatedByIn, tools.StringToInt64(v))
+	}
+	return nil
+}
+
+// CreatedByNotIn is the resolver for the createdByNotIn field.
+func (r *userRoleWhereInputResolver) CreatedByNotIn(ctx context.Context, obj *ent.UserRoleWhereInput, data []string) error {
+	for _, v := range data {
+		obj.CreatedByNotIn = append(obj.CreatedByNotIn, tools.StringToInt64(v))
+	}
+	return nil
+}
+
+// CreatedByGt is the resolver for the createdByGT field.
+func (r *userRoleWhereInputResolver) CreatedByGt(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: CreatedByGt - createdByGT"))
+}
+
+// CreatedByGte is the resolver for the createdByGTE field.
+func (r *userRoleWhereInputResolver) CreatedByGte(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: CreatedByGte - createdByGTE"))
+}
+
+// CreatedByLt is the resolver for the createdByLT field.
+func (r *userRoleWhereInputResolver) CreatedByLt(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: CreatedByLt - createdByLT"))
+}
+
+// CreatedByLte is the resolver for the createdByLTE field.
+func (r *userRoleWhereInputResolver) CreatedByLte(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: CreatedByLte - createdByLTE"))
+}
+
+// UpdatedBy is the resolver for the updatedBy field.
+func (r *userRoleWhereInputResolver) UpdatedBy(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.UpdatedBy = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
+// UpdatedByNeq is the resolver for the updatedByNEQ field.
+func (r *userRoleWhereInputResolver) UpdatedByNeq(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.UpdatedByNEQ = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
+// UpdatedByIn is the resolver for the updatedByIn field.
+func (r *userRoleWhereInputResolver) UpdatedByIn(ctx context.Context, obj *ent.UserRoleWhereInput, data []string) error {
+	for _, v := range data {
+		obj.UpdatedByIn = append(obj.UpdatedByIn, tools.StringToInt64(v))
+	}
+	return nil
+}
+
+// UpdatedByNotIn is the resolver for the updatedByNotIn field.
+func (r *userRoleWhereInputResolver) UpdatedByNotIn(ctx context.Context, obj *ent.UserRoleWhereInput, data []string) error {
+	for _, v := range data {
+		obj.UpdatedByNotIn = append(obj.UpdatedByNotIn, tools.StringToInt64(v))
+	}
+	return nil
+}
+
+// UpdatedByGt is the resolver for the updatedByGT field.
+func (r *userRoleWhereInputResolver) UpdatedByGt(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: UpdatedByGt - updatedByGT"))
+}
+
+// UpdatedByGte is the resolver for the updatedByGTE field.
+func (r *userRoleWhereInputResolver) UpdatedByGte(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: UpdatedByGte - updatedByGTE"))
+}
+
+// UpdatedByLt is the resolver for the updatedByLT field.
+func (r *userRoleWhereInputResolver) UpdatedByLt(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: UpdatedByLt - updatedByLT"))
+}
+
+// UpdatedByLte is the resolver for the updatedByLTE field.
+func (r *userRoleWhereInputResolver) UpdatedByLte(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: UpdatedByLte - updatedByLTE"))
+}
+
 // ID is the resolver for the id field.
 func (r *userWhereInputResolver) ID(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
 	if data != nil {
@@ -456,6 +831,122 @@ func (r *userWhereInputResolver) IDLte(ctx context.Context, obj *ent.UserWhereIn
 		obj.IDLTE = &tempID
 	}
 	return nil
+}
+
+// CreatedBy is the resolver for the createdBy field.
+func (r *userWhereInputResolver) CreatedBy(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.CreatedBy = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
+// CreatedByNeq is the resolver for the createdByNEQ field.
+func (r *userWhereInputResolver) CreatedByNeq(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.CreatedByNEQ = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
+// CreatedByIn is the resolver for the createdByIn field.
+func (r *userWhereInputResolver) CreatedByIn(ctx context.Context, obj *ent.UserWhereInput, data []string) error {
+	for _, v := range data {
+		obj.CreatedByIn = append(obj.CreatedByIn, tools.StringToInt64(v))
+	}
+	return nil
+}
+
+// CreatedByNotIn is the resolver for the createdByNotIn field.
+func (r *userWhereInputResolver) CreatedByNotIn(ctx context.Context, obj *ent.UserWhereInput, data []string) error {
+	for _, v := range data {
+		obj.CreatedByNotIn = append(obj.CreatedByNotIn, tools.StringToInt64(v))
+	}
+	return nil
+}
+
+// CreatedByGt is the resolver for the createdByGT field.
+func (r *userWhereInputResolver) CreatedByGt(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: CreatedByGt - createdByGT"))
+}
+
+// CreatedByGte is the resolver for the createdByGTE field.
+func (r *userWhereInputResolver) CreatedByGte(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: CreatedByGte - createdByGTE"))
+}
+
+// CreatedByLt is the resolver for the createdByLT field.
+func (r *userWhereInputResolver) CreatedByLt(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: CreatedByLt - createdByLT"))
+}
+
+// CreatedByLte is the resolver for the createdByLTE field.
+func (r *userWhereInputResolver) CreatedByLte(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: CreatedByLte - createdByLTE"))
+}
+
+// UpdatedBy is the resolver for the updatedBy field.
+func (r *userWhereInputResolver) UpdatedBy(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.UpdatedBy = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
+// UpdatedByNeq is the resolver for the updatedByNEQ field.
+func (r *userWhereInputResolver) UpdatedByNeq(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
+	if data != nil {
+		tempID := tools.StringToInt64(*data)
+		obj.UpdatedByNEQ = &tempID
+		return nil
+	} else {
+		return errors.New("null")
+	}
+}
+
+// UpdatedByIn is the resolver for the updatedByIn field.
+func (r *userWhereInputResolver) UpdatedByIn(ctx context.Context, obj *ent.UserWhereInput, data []string) error {
+	for _, v := range data {
+		obj.UpdatedByIn = append(obj.UpdatedByIn, tools.StringToInt64(v))
+	}
+	return nil
+}
+
+// UpdatedByNotIn is the resolver for the updatedByNotIn field.
+func (r *userWhereInputResolver) UpdatedByNotIn(ctx context.Context, obj *ent.UserWhereInput, data []string) error {
+	for _, v := range data {
+		obj.UpdatedByNotIn = append(obj.UpdatedByNotIn, tools.StringToInt64(v))
+	}
+	return nil
+}
+
+// UpdatedByGt is the resolver for the updatedByGT field.
+func (r *userWhereInputResolver) UpdatedByGt(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: UpdatedByGt - updatedByGT"))
+}
+
+// UpdatedByGte is the resolver for the updatedByGTE field.
+func (r *userWhereInputResolver) UpdatedByGte(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: UpdatedByGte - updatedByGTE"))
+}
+
+// UpdatedByLt is the resolver for the updatedByLT field.
+func (r *userWhereInputResolver) UpdatedByLt(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: UpdatedByLt - updatedByLT"))
+}
+
+// UpdatedByLte is the resolver for the updatedByLTE field.
+func (r *userWhereInputResolver) UpdatedByLte(ctx context.Context, obj *ent.UserWhereInput, data *string) error {
+	panic(fmt.Errorf("not implemented: UpdatedByLte - updatedByLTE"))
 }
 
 // Mutation returns MutationResolver implementation.

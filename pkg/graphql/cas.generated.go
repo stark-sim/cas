@@ -39,21 +39,33 @@ type QueryResolver interface {
 }
 type RoleResolver interface {
 	ID(ctx context.Context, obj *ent.Role) (string, error)
+	CreatedBy(ctx context.Context, obj *ent.Role) (string, error)
+	UpdatedBy(ctx context.Context, obj *ent.Role) (string, error)
 }
 type UserResolver interface {
 	ID(ctx context.Context, obj *ent.User) (string, error)
+	CreatedBy(ctx context.Context, obj *ent.User) (string, error)
+	UpdatedBy(ctx context.Context, obj *ent.User) (string, error)
 }
 type UserRoleResolver interface {
 	ID(ctx context.Context, obj *ent.UserRole) (string, error)
+	CreatedBy(ctx context.Context, obj *ent.UserRole) (string, error)
+	UpdatedBy(ctx context.Context, obj *ent.UserRole) (string, error)
 
 	UserID(ctx context.Context, obj *ent.UserRole) (string, error)
 	RoleID(ctx context.Context, obj *ent.UserRole) (string, error)
 }
 
 type CreateRoleInputResolver interface {
+	CreatedBy(ctx context.Context, obj *ent.CreateRoleInput, data *string) error
+	UpdatedBy(ctx context.Context, obj *ent.CreateRoleInput, data *string) error
+
 	UserIDs(ctx context.Context, obj *ent.CreateRoleInput, data []string) error
 }
 type CreateUserInputResolver interface {
+	CreatedBy(ctx context.Context, obj *ent.CreateUserInput, data *string) error
+	UpdatedBy(ctx context.Context, obj *ent.CreateUserInput, data *string) error
+
 	RoleIDs(ctx context.Context, obj *ent.CreateUserInput, data []string) error
 }
 type RoleWhereInputResolver interface {
@@ -65,12 +77,34 @@ type RoleWhereInputResolver interface {
 	IDGte(ctx context.Context, obj *ent.RoleWhereInput, data *string) error
 	IDLt(ctx context.Context, obj *ent.RoleWhereInput, data *string) error
 	IDLte(ctx context.Context, obj *ent.RoleWhereInput, data *string) error
+	CreatedBy(ctx context.Context, obj *ent.RoleWhereInput, data *string) error
+	CreatedByNeq(ctx context.Context, obj *ent.RoleWhereInput, data *string) error
+	CreatedByIn(ctx context.Context, obj *ent.RoleWhereInput, data []string) error
+	CreatedByNotIn(ctx context.Context, obj *ent.RoleWhereInput, data []string) error
+	CreatedByGt(ctx context.Context, obj *ent.RoleWhereInput, data *string) error
+	CreatedByGte(ctx context.Context, obj *ent.RoleWhereInput, data *string) error
+	CreatedByLt(ctx context.Context, obj *ent.RoleWhereInput, data *string) error
+	CreatedByLte(ctx context.Context, obj *ent.RoleWhereInput, data *string) error
+	UpdatedBy(ctx context.Context, obj *ent.RoleWhereInput, data *string) error
+	UpdatedByNeq(ctx context.Context, obj *ent.RoleWhereInput, data *string) error
+	UpdatedByIn(ctx context.Context, obj *ent.RoleWhereInput, data []string) error
+	UpdatedByNotIn(ctx context.Context, obj *ent.RoleWhereInput, data []string) error
+	UpdatedByGt(ctx context.Context, obj *ent.RoleWhereInput, data *string) error
+	UpdatedByGte(ctx context.Context, obj *ent.RoleWhereInput, data *string) error
+	UpdatedByLt(ctx context.Context, obj *ent.RoleWhereInput, data *string) error
+	UpdatedByLte(ctx context.Context, obj *ent.RoleWhereInput, data *string) error
 }
 type UpdateRoleInputResolver interface {
+	CreatedBy(ctx context.Context, obj *ent.UpdateRoleInput, data *string) error
+	UpdatedBy(ctx context.Context, obj *ent.UpdateRoleInput, data *string) error
+
 	AddUserIDs(ctx context.Context, obj *ent.UpdateRoleInput, data []string) error
 	RemoveUserIDs(ctx context.Context, obj *ent.UpdateRoleInput, data []string) error
 }
 type UpdateUserInputResolver interface {
+	CreatedBy(ctx context.Context, obj *ent.UpdateUserInput, data *string) error
+	UpdatedBy(ctx context.Context, obj *ent.UpdateUserInput, data *string) error
+
 	AddRoleIDs(ctx context.Context, obj *ent.UpdateUserInput, data []string) error
 	RemoveRoleIDs(ctx context.Context, obj *ent.UpdateUserInput, data []string) error
 }
@@ -83,6 +117,22 @@ type UserRoleWhereInputResolver interface {
 	IDGte(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error
 	IDLt(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error
 	IDLte(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error
+	CreatedBy(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error
+	CreatedByNeq(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error
+	CreatedByIn(ctx context.Context, obj *ent.UserRoleWhereInput, data []string) error
+	CreatedByNotIn(ctx context.Context, obj *ent.UserRoleWhereInput, data []string) error
+	CreatedByGt(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error
+	CreatedByGte(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error
+	CreatedByLt(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error
+	CreatedByLte(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error
+	UpdatedBy(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error
+	UpdatedByNeq(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error
+	UpdatedByIn(ctx context.Context, obj *ent.UserRoleWhereInput, data []string) error
+	UpdatedByNotIn(ctx context.Context, obj *ent.UserRoleWhereInput, data []string) error
+	UpdatedByGt(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error
+	UpdatedByGte(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error
+	UpdatedByLt(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error
+	UpdatedByLte(ctx context.Context, obj *ent.UserRoleWhereInput, data *string) error
 }
 type UserWhereInputResolver interface {
 	ID(ctx context.Context, obj *ent.UserWhereInput, data *string) error
@@ -93,6 +143,22 @@ type UserWhereInputResolver interface {
 	IDGte(ctx context.Context, obj *ent.UserWhereInput, data *string) error
 	IDLt(ctx context.Context, obj *ent.UserWhereInput, data *string) error
 	IDLte(ctx context.Context, obj *ent.UserWhereInput, data *string) error
+	CreatedBy(ctx context.Context, obj *ent.UserWhereInput, data *string) error
+	CreatedByNeq(ctx context.Context, obj *ent.UserWhereInput, data *string) error
+	CreatedByIn(ctx context.Context, obj *ent.UserWhereInput, data []string) error
+	CreatedByNotIn(ctx context.Context, obj *ent.UserWhereInput, data []string) error
+	CreatedByGt(ctx context.Context, obj *ent.UserWhereInput, data *string) error
+	CreatedByGte(ctx context.Context, obj *ent.UserWhereInput, data *string) error
+	CreatedByLt(ctx context.Context, obj *ent.UserWhereInput, data *string) error
+	CreatedByLte(ctx context.Context, obj *ent.UserWhereInput, data *string) error
+	UpdatedBy(ctx context.Context, obj *ent.UserWhereInput, data *string) error
+	UpdatedByNeq(ctx context.Context, obj *ent.UserWhereInput, data *string) error
+	UpdatedByIn(ctx context.Context, obj *ent.UserWhereInput, data []string) error
+	UpdatedByNotIn(ctx context.Context, obj *ent.UserWhereInput, data []string) error
+	UpdatedByGt(ctx context.Context, obj *ent.UserWhereInput, data *string) error
+	UpdatedByGte(ctx context.Context, obj *ent.UserWhereInput, data *string) error
+	UpdatedByLt(ctx context.Context, obj *ent.UserWhereInput, data *string) error
+	UpdatedByLte(ctx context.Context, obj *ent.UserWhereInput, data *string) error
 }
 
 // endregion ************************** generated!.gotpl **************************
@@ -1591,7 +1657,7 @@ func (ec *executionContext) _Role_createdBy(ctx context.Context, field graphql.C
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.CreatedBy, nil
+		return ec.resolvers.Role().CreatedBy(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1603,19 +1669,19 @@ func (ec *executionContext) _Role_createdBy(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int64)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNInt2int64(ctx, field.Selections, res)
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Role_createdBy(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Role",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -1635,7 +1701,7 @@ func (ec *executionContext) _Role_updatedBy(ctx context.Context, field graphql.C
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.UpdatedBy, nil
+		return ec.resolvers.Role().UpdatedBy(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1647,19 +1713,19 @@ func (ec *executionContext) _Role_updatedBy(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int64)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNInt2int64(ctx, field.Selections, res)
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Role_updatedBy(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Role",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -2025,7 +2091,7 @@ func (ec *executionContext) _User_createdBy(ctx context.Context, field graphql.C
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.CreatedBy, nil
+		return ec.resolvers.User().CreatedBy(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2037,19 +2103,19 @@ func (ec *executionContext) _User_createdBy(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int64)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNInt2int64(ctx, field.Selections, res)
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_User_createdBy(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "User",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -2069,7 +2135,7 @@ func (ec *executionContext) _User_updatedBy(ctx context.Context, field graphql.C
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.UpdatedBy, nil
+		return ec.resolvers.User().UpdatedBy(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2081,19 +2147,19 @@ func (ec *executionContext) _User_updatedBy(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int64)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNInt2int64(ctx, field.Selections, res)
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_User_updatedBy(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "User",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -2501,7 +2567,7 @@ func (ec *executionContext) _UserRole_createdBy(ctx context.Context, field graph
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.CreatedBy, nil
+		return ec.resolvers.UserRole().CreatedBy(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2513,19 +2579,19 @@ func (ec *executionContext) _UserRole_createdBy(ctx context.Context, field graph
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int64)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNInt2int64(ctx, field.Selections, res)
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_UserRole_createdBy(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "UserRole",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -2545,7 +2611,7 @@ func (ec *executionContext) _UserRole_updatedBy(ctx context.Context, field graph
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.UpdatedBy, nil
+		return ec.resolvers.UserRole().UpdatedBy(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2557,19 +2623,19 @@ func (ec *executionContext) _UserRole_updatedBy(ctx context.Context, field graph
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int64)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNInt2int64(ctx, field.Selections, res)
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_UserRole_updatedBy(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "UserRole",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -2947,16 +3013,22 @@ func (ec *executionContext) unmarshalInputCreateRoleInput(ctx context.Context, o
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdBy"))
-			it.CreatedBy, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.CreateRoleInput().CreatedBy(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedBy":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedBy"))
-			it.UpdatedBy, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.CreateRoleInput().UpdatedBy(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdAt":
@@ -3026,16 +3098,22 @@ func (ec *executionContext) unmarshalInputCreateUserInput(ctx context.Context, o
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdBy"))
-			it.CreatedBy, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.CreateUserInput().CreatedBy(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedBy":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedBy"))
-			it.UpdatedBy, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.CreateUserInput().UpdatedBy(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdAt":
@@ -3293,128 +3371,176 @@ func (ec *executionContext) unmarshalInputRoleWhereInput(ctx context.Context, ob
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdBy"))
-			it.CreatedBy, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.RoleWhereInput().CreatedBy(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByNEQ":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByNEQ"))
-			it.CreatedByNEQ, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.RoleWhereInput().CreatedByNeq(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByIn"))
-			it.CreatedByIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.RoleWhereInput().CreatedByIn(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByNotIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByNotIn"))
-			it.CreatedByNotIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.RoleWhereInput().CreatedByNotIn(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByGT":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByGT"))
-			it.CreatedByGT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.RoleWhereInput().CreatedByGt(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByGTE":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByGTE"))
-			it.CreatedByGTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.RoleWhereInput().CreatedByGte(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByLT":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByLT"))
-			it.CreatedByLT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.RoleWhereInput().CreatedByLt(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByLTE":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByLTE"))
-			it.CreatedByLTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.RoleWhereInput().CreatedByLte(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedBy":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedBy"))
-			it.UpdatedBy, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.RoleWhereInput().UpdatedBy(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByNEQ":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByNEQ"))
-			it.UpdatedByNEQ, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.RoleWhereInput().UpdatedByNeq(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByIn"))
-			it.UpdatedByIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.RoleWhereInput().UpdatedByIn(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByNotIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByNotIn"))
-			it.UpdatedByNotIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.RoleWhereInput().UpdatedByNotIn(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByGT":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByGT"))
-			it.UpdatedByGT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.RoleWhereInput().UpdatedByGt(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByGTE":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByGTE"))
-			it.UpdatedByGTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.RoleWhereInput().UpdatedByGte(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByLT":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByLT"))
-			it.UpdatedByLT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.RoleWhereInput().UpdatedByLt(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByLTE":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByLTE"))
-			it.UpdatedByLTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.RoleWhereInput().UpdatedByLte(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdAt":
@@ -3769,16 +3895,22 @@ func (ec *executionContext) unmarshalInputUpdateRoleInput(ctx context.Context, o
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdBy"))
-			it.CreatedBy, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UpdateRoleInput().CreatedBy(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedBy":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedBy"))
-			it.UpdatedBy, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UpdateRoleInput().UpdatedBy(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedAt":
@@ -3851,16 +3983,22 @@ func (ec *executionContext) unmarshalInputUpdateUserInput(ctx context.Context, o
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdBy"))
-			it.CreatedBy, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UpdateUserInput().CreatedBy(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedBy":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedBy"))
-			it.UpdatedBy, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UpdateUserInput().UpdatedBy(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedAt":
@@ -4133,128 +4271,176 @@ func (ec *executionContext) unmarshalInputUserRoleWhereInput(ctx context.Context
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdBy"))
-			it.CreatedBy, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserRoleWhereInput().CreatedBy(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByNEQ":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByNEQ"))
-			it.CreatedByNEQ, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserRoleWhereInput().CreatedByNeq(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByIn"))
-			it.CreatedByIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserRoleWhereInput().CreatedByIn(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByNotIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByNotIn"))
-			it.CreatedByNotIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserRoleWhereInput().CreatedByNotIn(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByGT":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByGT"))
-			it.CreatedByGT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserRoleWhereInput().CreatedByGt(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByGTE":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByGTE"))
-			it.CreatedByGTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserRoleWhereInput().CreatedByGte(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByLT":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByLT"))
-			it.CreatedByLT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserRoleWhereInput().CreatedByLt(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByLTE":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByLTE"))
-			it.CreatedByLTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserRoleWhereInput().CreatedByLte(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedBy":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedBy"))
-			it.UpdatedBy, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserRoleWhereInput().UpdatedBy(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByNEQ":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByNEQ"))
-			it.UpdatedByNEQ, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserRoleWhereInput().UpdatedByNeq(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByIn"))
-			it.UpdatedByIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserRoleWhereInput().UpdatedByIn(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByNotIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByNotIn"))
-			it.UpdatedByNotIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserRoleWhereInput().UpdatedByNotIn(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByGT":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByGT"))
-			it.UpdatedByGT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserRoleWhereInput().UpdatedByGt(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByGTE":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByGTE"))
-			it.UpdatedByGTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserRoleWhereInput().UpdatedByGte(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByLT":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByLT"))
-			it.UpdatedByLT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserRoleWhereInput().UpdatedByLt(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByLTE":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByLTE"))
-			it.UpdatedByLTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserRoleWhereInput().UpdatedByLte(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdAt":
@@ -4585,128 +4771,176 @@ func (ec *executionContext) unmarshalInputUserWhereInput(ctx context.Context, ob
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdBy"))
-			it.CreatedBy, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserWhereInput().CreatedBy(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByNEQ":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByNEQ"))
-			it.CreatedByNEQ, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserWhereInput().CreatedByNeq(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByIn"))
-			it.CreatedByIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserWhereInput().CreatedByIn(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByNotIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByNotIn"))
-			it.CreatedByNotIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserWhereInput().CreatedByNotIn(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByGT":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByGT"))
-			it.CreatedByGT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserWhereInput().CreatedByGt(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByGTE":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByGTE"))
-			it.CreatedByGTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserWhereInput().CreatedByGte(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByLT":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByLT"))
-			it.CreatedByLT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserWhereInput().CreatedByLt(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdByLTE":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdByLTE"))
-			it.CreatedByLTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserWhereInput().CreatedByLte(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedBy":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedBy"))
-			it.UpdatedBy, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserWhereInput().UpdatedBy(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByNEQ":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByNEQ"))
-			it.UpdatedByNEQ, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserWhereInput().UpdatedByNeq(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByIn"))
-			it.UpdatedByIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserWhereInput().UpdatedByIn(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByNotIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByNotIn"))
-			it.UpdatedByNotIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserWhereInput().UpdatedByNotIn(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByGT":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByGT"))
-			it.UpdatedByGT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserWhereInput().UpdatedByGt(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByGTE":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByGTE"))
-			it.UpdatedByGTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserWhereInput().UpdatedByGte(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByLT":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByLT"))
-			it.UpdatedByLT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserWhereInput().UpdatedByLt(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "updatedByLTE":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedByLTE"))
-			it.UpdatedByLTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
+				return it, err
+			}
+			if err = ec.resolvers.UserWhereInput().UpdatedByLte(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "createdAt":
@@ -5553,19 +5787,45 @@ func (ec *executionContext) _Role(ctx context.Context, sel ast.SelectionSet, obj
 
 			})
 		case "createdBy":
+			field := field
 
-			out.Values[i] = ec._Role_createdBy(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Role_createdBy(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
 			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
 		case "updatedBy":
+			field := field
 
-			out.Values[i] = ec._Role_updatedBy(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Role_updatedBy(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
 			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
 		case "createdAt":
 
 			out.Values[i] = ec._Role_createdAt(ctx, field, obj)
@@ -5670,19 +5930,45 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 
 			})
 		case "createdBy":
+			field := field
 
-			out.Values[i] = ec._User_createdBy(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._User_createdBy(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
 			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
 		case "updatedBy":
+			field := field
 
-			out.Values[i] = ec._User_updatedBy(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._User_updatedBy(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
 			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
 		case "createdAt":
 
 			out.Values[i] = ec._User_createdAt(ctx, field, obj)
@@ -5794,19 +6080,45 @@ func (ec *executionContext) _UserRole(ctx context.Context, sel ast.SelectionSet,
 
 			})
 		case "createdBy":
+			field := field
 
-			out.Values[i] = ec._UserRole_createdBy(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._UserRole_createdBy(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
 			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
 		case "updatedBy":
+			field := field
 
-			out.Values[i] = ec._UserRole_updatedBy(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._UserRole_updatedBy(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
 			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
 		case "createdAt":
 
 			out.Values[i] = ec._UserRole_createdAt(ctx, field, obj)

@@ -194,6 +194,9 @@ func (r *Role) String() string {
 	return builder.String()
 }
 
+// IsEntity implement fedruntime.Entity
+func (r Role) IsEntity() {}
+
 // NamedUsers returns the Users named value or an error if the edge was not
 // loaded in eager-loading with this name.
 func (r *Role) NamedUsers(name string) ([]*User, error) {
