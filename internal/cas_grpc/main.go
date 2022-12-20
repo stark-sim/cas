@@ -1,11 +1,12 @@
 package main
 
 import (
-	"cas/configs"
-	"cas/internal/db"
-	"cas/tools"
 	"fmt"
 	"github.com/sirupsen/logrus"
+	"github.com/stark-sim/cas/configs"
+	"github.com/stark-sim/cas/internal/db"
+	"github.com/stark-sim/cas/pkg/grpc/proto/entpb"
+	"github.com/stark-sim/cas/tools"
 	"google.golang.org/grpc"
 	"net"
 	"os"
@@ -31,6 +32,11 @@ func main() {
 	// gRPC 服务初始化
 	// 要将业务注册进该服务中
 	grpcServer := grpc.NewServer()
+	// Initialize the generated User service
+	client := db.NewDBClient()
+	svc := entpb.NewUserService(client)
+	// 注册 service 到 server 中
+	entpb.RegisterUserServiceServer(grpcServer, svc)
 	// 同步信道监听结束信号
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGTERM)
