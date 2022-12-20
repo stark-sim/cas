@@ -48,6 +48,6 @@ func (User) Annotations() []schema.Annotation {
 		entgql.QueryField(),
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),
 		entproto.Message(),
-		entproto.Service(),
+		entproto.Service(entproto.Methods(entproto.MethodCreate | entproto.MethodGet | entproto.MethodDelete | entproto.MethodUpdate | entproto.MethodBatchCreate)),
 	}
 }

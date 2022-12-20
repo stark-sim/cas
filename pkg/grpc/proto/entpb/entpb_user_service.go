@@ -3,11 +3,9 @@ package entpb
 
 import (
 	context "context"
-	base64 "encoding/base64"
 	entproto "entgo.io/contrib/entproto"
 	runtime "entgo.io/contrib/entproto/runtime"
 	sqlgraph "entgo.io/ent/dialect/sql/sqlgraph"
-	fmt "fmt"
 	ent "github.com/stark-sim/cas/pkg/ent"
 	user "github.com/stark-sim/cas/pkg/ent/user"
 	codes "google.golang.org/grpc/codes"
@@ -163,60 +161,6 @@ func (svc *UserService) Delete(ctx context.Context, req *DeleteUserRequest) (*em
 		return &emptypb.Empty{}, nil
 	case ent.IsNotFound(err):
 		return nil, status.Errorf(codes.NotFound, "not found: %s", err)
-	default:
-		return nil, status.Errorf(codes.Internal, "internal error: %s", err)
-	}
-
-}
-
-// List implements UserServiceServer.List
-func (svc *UserService) List(ctx context.Context, req *ListUserRequest) (*ListUserResponse, error) {
-	var (
-		err      error
-		entList  []*ent.User
-		pageSize int
-	)
-	pageSize = int(req.GetPageSize())
-	switch {
-	case pageSize < 0:
-		return nil, status.Errorf(codes.InvalidArgument, "page size cannot be less than zero")
-	case pageSize == 0 || pageSize > entproto.MaxPageSize:
-		pageSize = entproto.MaxPageSize
-	}
-	listQuery := svc.client.User.Query().
-		Order(ent.Desc(user.FieldID)).
-		Limit(pageSize + 1)
-	if req.GetPageToken() != "" {
-		bytes, err := base64.StdEncoding.DecodeString(req.PageToken)
-		if err != nil {
-			return nil, status.Errorf(codes.InvalidArgument, "page token is invalid")
-		}
-		listQuery = listQuery.
-			Where(user.IDLTE(pageToken))
-	}
-	switch req.GetView() {
-	case ListUserRequest_VIEW_UNSPECIFIED, ListUserRequest_BASIC:
-		entList, err = listQuery.All(ctx)
-	case ListUserRequest_WITH_EDGE_IDS:
-		entList, err = listQuery.
-			All(ctx)
-	}
-	switch {
-	case err == nil:
-		var nextPageToken string
-		if len(entList) == pageSize+1 {
-			nextPageToken = base64.StdEncoding.EncodeToString(
-				[]byte(fmt.Sprintf("%v", entList[len(entList)-1].ID)))
-			entList = entList[:len(entList)-1]
-		}
-		protoList, err := toProtoUserList(entList)
-		if err != nil {
-			return nil, status.Errorf(codes.Internal, "internal error: %s", err)
-		}
-		return &ListUserResponse{
-			UserList:      protoList,
-			NextPageToken: nextPageToken,
-		}, nil
 	default:
 		return nil, status.Errorf(codes.Internal, "internal error: %s", err)
 	}
