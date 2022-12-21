@@ -1,3 +1,4 @@
 package grpc
 
-//go:generate go run -mod=mod entgo.io/contrib/entproto/cmd/entproto -path ../ent/schema
+// 手动更新 proto，不使用 entproto
+//go:generate protoc --proto_path=./pb --go_out=plugins=grpc:./pb ./pb/cas.proto

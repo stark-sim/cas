@@ -5,7 +5,8 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/stark-sim/cas/configs"
 	"github.com/stark-sim/cas/internal/db"
-	"github.com/stark-sim/cas/pkg/grpc/proto/entpb"
+	pb "github.com/stark-sim/cas/pkg/grpc/pb"
+	"github.com/stark-sim/cas/pkg/grpc/servers"
 	"github.com/stark-sim/cas/tools"
 	"google.golang.org/grpc"
 	"net"
@@ -34,9 +35,9 @@ func main() {
 	grpcServer := grpc.NewServer()
 	// Initialize the generated User service
 	client := db.NewDBClient()
-	svc := entpb.NewUserService(client)
+	svc := servers.UserServer{Client: client}
 	// 注册 service 到 server 中
-	entpb.RegisterUserServiceServer(grpcServer, svc)
+	pb.RegisterUserServiceServer(grpcServer, &svc)
 	// 同步信道监听结束信号
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGTERM)
