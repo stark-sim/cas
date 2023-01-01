@@ -219,8 +219,8 @@ type User implements Node @key(fields: "id") {
   createdAt: Time!
   updatedAt: Time!
   deletedAt: Time!
-  name: String!
-  phone: String!
+  name: String! @override(from: "avalon_backend")
+  phone: String! @override(from: "avalon_backend")
   roles: [Role!]
   userRoles: [UserRole!]
 }
