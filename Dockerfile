@@ -20,8 +20,9 @@ COPY . .
 
 ARG TARGETOS
 ARG TARGETARCH
-# 由于获取 config.yaml 位置时需要依赖文件内部路径，所以不能加 -trimpath
+
 RUN CGO_ENABLE=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -trimpath -ldflags "-s -w" -o http_server ./internal/cas_http/main.go
+RUN CGO_ENABLE=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -trimpath -ldflags "-s -w" -o grpc_server ./internal/cas_grpc/main.go
 
 FROM alpine:latest
 
@@ -31,8 +32,9 @@ RUN apk add --no-cache tzdata
 WORKDIR /app
 
 COPY --from=builder /src/http_server /app/
+COPY --from=builder /src/grpc_server /app/
 COPY --from=builder /src/internal/db/migrations /app/internal/db/migrations/
 
 EXPOSE 8080
 
-ENTRYPOINT ["./http_server"]
+ENTRYPOINT ["./http_server", "./grpc_server"]
