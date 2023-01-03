@@ -10,6 +10,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gin-gonic/gin"
 	"github.com/stark-sim/cas/configs"
+	httpMiddlewares "github.com/stark-sim/cas/internal/cas_http/middlewares"
 	"github.com/stark-sim/cas/internal/db"
 	"github.com/stark-sim/cas/pkg/ent"
 	"github.com/stark-sim/cas/pkg/graphql"
@@ -29,6 +30,7 @@ func main() {
 	// 结合 gin 启动 http 服务
 	r := gin.Default()
 	r.Use(middlewares.WriterMiddleware())
+	r.Use(httpMiddlewares.CORS())
 	r.POST("/graphql", graphqlHandler())
 	r.GET("/", playgroundHandler())
 	err = r.Run(fmt.Sprintf(":%v", configs.Conf.APIConfig.HttpPort))
