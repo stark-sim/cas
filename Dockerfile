@@ -38,4 +38,4 @@ COPY --from=builder /src/internal/db/migrations /app/internal/db/migrations/
 
 EXPOSE 8080 8081
 
-ENTRYPOINT ["./app/entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]

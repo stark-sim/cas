@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # 后台启动 GRPC
 ./grpc_server &
