@@ -31,6 +31,7 @@ RUN apk add --no-cache tzdata
 
 WORKDIR /app
 
+COPY --from=builder /src/entrypoint.sh /app/
 COPY --from=builder /src/http_server /app/
 COPY --from=builder /src/grpc_server /app/
 COPY --from=builder /src/internal/db/migrations /app/internal/db/migrations/
