@@ -37,4 +37,5 @@ COPY --from=builder /src/internal/db/migrations /app/internal/db/migrations/
 
 EXPOSE 8080 8081
 
-ENTRYPOINT ["./http_server", "./grpc_server"]
+ENTRYPOINT ["./http_server"]
+ENTRYPOINT ["./grpc_server"]
