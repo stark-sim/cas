@@ -450,6 +450,7 @@ extend type Query {
 
 input RegisterReq {
   phone: String!
+  name: String!
 }
 
 extend type Mutation {

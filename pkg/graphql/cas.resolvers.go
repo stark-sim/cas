@@ -62,7 +62,7 @@ func (r *mutationResolver) Register(ctx context.Context, req model.RegisterReq) 
 	_, err := r.client.User.Query().Where(user.Phone(req.Phone), user.DeletedAtEQ(tools.ZeroTime)).First(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return r.client.User.Create().SetName("").SetPhone(req.Phone).Save(ctx)
+			return r.client.User.Create().SetName(req.Name).SetPhone(req.Phone).Save(ctx)
 		} else {
 			logrus.Errorf("err at check existing phone: %v", err)
 			return nil, err
