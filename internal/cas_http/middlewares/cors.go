@@ -20,10 +20,10 @@ func CORS() gin.HandlerFunc {
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, DELETE")
 		// 不是每一个请求都要返回 json
 		//c.Writer.Header().Set("Content-Type", "application/json; charset=utf-8")
-		//if c.Request.Method == "OPTIONS" {
-		//	c.AbortWithStatus(204)
-		//	return
-		//}
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
 		logrus.Printf("[CORS] set cors success")
 		c.Next()
 	}
