@@ -25,7 +25,7 @@ func main() {
 	err = tools.Init()
 	err = db.InitDB()
 	if err != nil {
-		return
+		panic(err)
 	}
 	// 结合 gin 启动 http 服务
 	r := gin.Default()
@@ -35,7 +35,7 @@ func main() {
 	r.GET("/", playgroundHandler())
 	err = r.Run(fmt.Sprintf(":%v", configs.Conf.APIConfig.HttpPort))
 	if err != nil {
-		return
+		panic(err)
 	}
 }
 
@@ -65,7 +65,7 @@ func graphqlHandler() gin.HandlerFunc {
 }
 
 func playgroundHandler() gin.HandlerFunc {
-	srv := playground.Handler("Test", "/cas/api/graphql")
+	srv := playground.Handler("Test", "/graphql")
 	return func(c *gin.Context) {
 		srv.ServeHTTP(c.Writer, c.Request)
 	}
