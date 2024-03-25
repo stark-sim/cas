@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   app:
-    image: harbor.rosabi.cn/library/cas
+    image: starksim/cas
     ports:
       - "127.0.0.1:8080:8080"
       - "127.0.0.1:8081:8081"
